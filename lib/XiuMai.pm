@@ -1,7 +1,9 @@
 package XiuMai;
+
 use 5.008001;
 use strict;
 use warnings;
+use XiuMai::Request;
 
 our $VERSION = "0.01";
 
@@ -16,12 +18,36 @@ sub DATA {
     return defined $ENV{XIUMAI_DATA} ? $ENV{XIUMAI_DATA} : HOME;
 }
 
-sub handler :method {
-    use CGI;
-    my $cgi = new CGI;
+sub new {
+    my $class = shift;
+    my $self->{Request} = new XiuMai::Request;
+    return bless $self, $class;
+}
 
-    print $cgi->header, '<html><h1>It works!</h1></html>';
-    return;
+sub _req {   $_[0]->{Request}   }
+sub _res {   $_[0]->{Response}  }
+
+sub handler {
+    my $self = new XiuMai;
+    $self->_do_get      if ($self->_req->method eq 'HEAD');
+    $self->_do_get      if ($self->_req->method eq 'GET');
+    $self->_do_post     if ($self->_req->method eq 'POST');
+    $self->_do_post;    #### TODO: fix it. ####
+}
+
+sub _do_get {
+    my $self = shift;
+    my $cgi = $self->_req->{CGI};
+    print $cgi->header;
+    print '<html><h1>It works!</h1></html>' if ($self->_req->method eq 'GET');
+    exit;
+}
+
+sub _do_post {
+    my $self = shift;
+    my $cgi = $self->_req->{CGI};
+    print $cgi->redirect($self->_req->url);
+    exit;
 }
 
 1;
