@@ -29,7 +29,7 @@ sub _redirect {
     my $self = shift;
     my %param = @_ == 1 ? ( -uri => shift @_ ) : @_;
 
-    $self->_cgi->header(%param);
+    $self->_cgi->redirect(%param);
 }
 
 sub print {
