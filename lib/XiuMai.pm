@@ -4,6 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 use XiuMai::Request;
+use XiuMai::Response;
 
 our $VERSION = "0.01";
 
@@ -20,7 +21,9 @@ sub DATA {
 
 sub new {
     my $class = shift;
-    my $self->{Request} = new XiuMai::Request;
+    my $self = {};
+    $self->{Request}  = new XiuMai::Request;
+    $self->{Response} = new XiuMai::Response($self->{Request});
     return bless $self, $class;
 }
 
@@ -32,22 +35,17 @@ sub handler {
     $self->_do_get      if ($self->_req->method eq 'HEAD');
     $self->_do_get      if ($self->_req->method eq 'GET');
     $self->_do_post     if ($self->_req->method eq 'POST');
-    $self->_do_post;    #### TODO: fix it. ####
+    $self->_res->print_error(405);
 }
 
 sub _do_get {
     my $self = shift;
-    my $cgi = $self->_req->{CGI};
-    print $cgi->header;
-    print '<html><h1>It works!</h1></html>' if ($self->_req->method eq 'GET');
-    exit;
+    $self->_res->print('<html><h1>It works!</h1></html>');
 }
 
 sub _do_post {
     my $self = shift;
-    my $cgi = $self->_req->{CGI};
-    print $cgi->redirect($self->_req->url);
-    exit;
+    $self->_res->print_redirect(303, $self->_req->url);
 }
 
 1;

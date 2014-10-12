@@ -42,11 +42,14 @@
       },
       "runtime" : {
          "requires" : {
+            "CGI" : "2.57",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
+            "HTTP::Request::AsCGI" : "0",
+            "HTTP::Request::Common" : "0",
             "Test::More" : "0.98"
          }
       }
