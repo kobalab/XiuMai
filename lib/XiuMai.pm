@@ -38,7 +38,7 @@ XiuMai - Web site construction tool
 If you use XiuMai as CGI:
 
     use XiuMai;
-    $ENV{XIUMA_HOME} = '/path/of/datafiles';
+    $ENV{XIUMAI_HOME} = '/path/of/datafiles';
     XiuMai::handler;
 
 or mod_perl2:
