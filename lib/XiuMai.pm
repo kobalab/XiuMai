@@ -35,7 +35,7 @@ XiuMai - Web site construction tool
 
 =head1 SYNOPSIS
 
-If you use XiuNai as CGI:
+If you use XiuMai as CGI:
 
     use XiuMai;
     $ENV{XIUMA_HOME} = '/path/of/datafiles';
@@ -54,6 +54,7 @@ or mod_perl2:
 =head1 DESCRIPTION
 
 XiuMai is web site construction tool. It works on perl 5.8.1 or later.
+
 But now, I'm trying refactoring. This release (on github) B<does't work yet!>
 
 =head1 LICENSE
