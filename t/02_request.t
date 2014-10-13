@@ -2,7 +2,6 @@ use strict;
 use Test::More 0.98;
 use HTTP::Request::Common;
 use HTTP::Request::AsCGI;
-use Data::Dumper;
 
 #
 #   Loading module
