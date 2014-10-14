@@ -26,6 +26,18 @@ XiuMai is web site construction tool. It works on perl 5.8.1 or later.
 
 But now, I'm trying refactoring. This release (on github) **does't work yet!**
 
+# ENVIRONMENT VARIABLES
+
+## XIUMAI\_HOME
+
+Directory of authentication and contents repository.
+
+## XIUMAI\_DATA
+
+If you want to run 2 or more XiuMai, and must share authentication,
+set authentication repository to XIUMAI\_HOME, and set contents repository to
+XIUMAI\_DATA.
+
 # LICENSE
 
 Copyright (C) Satoshi Kobayashi.
