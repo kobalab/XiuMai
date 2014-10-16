@@ -43,6 +43,7 @@
       "runtime" : {
          "requires" : {
             "CGI" : "2.57",
+            "Exporter" : "0",
             "perl" : "5.008001"
          }
       },
@@ -50,7 +51,8 @@
          "requires" : {
             "HTTP::Request::AsCGI" : "0",
             "HTTP::Request::Common" : "0",
-            "Test::More" : "0.98"
+            "Test::More" : "0.98",
+            "Time::Local" : "0"
          }
       }
    },
