@@ -2,6 +2,7 @@ requires 'perl', '5.008001';
 
 requires 'CGI', '2.57';
 requires 'Exporter';
+requires 'IO::File';
 
 on 'configure' => sub {
     requires 'Module::Build::Tiny', '0.039';

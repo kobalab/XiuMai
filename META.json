@@ -44,6 +44,7 @@
          "requires" : {
             "CGI" : "2.57",
             "Exporter" : "0",
+            "IO::File" : "0",
             "perl" : "5.008001"
          }
       },
@@ -67,5 +68,5 @@
          "web" : "https://github.com/kobalab/XiuMai"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }
