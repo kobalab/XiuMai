@@ -9,7 +9,9 @@ our $VERSION = $XiuMai::VERSION;
 
 sub new {
     my $class = shift;
-    return bless { CGI => new CGI }, $class;
+    my $cgi = new CGI;
+    $cgi->charset('utf-8');
+    return bless { CGI => $cgi }, $class;
 }
 
 sub method {
