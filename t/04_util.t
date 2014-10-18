@@ -13,6 +13,11 @@ BEGIN {
 }
 
 #
+#   Class Variables
+#
+is($XiuMai::Util::VERSION, $XiuMai::VERSION, '$VERSION');
+
+#
 #   Functions
 #
 my @cdata_test = (
