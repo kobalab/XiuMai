@@ -1,6 +1,9 @@
 use strict;
 use Test::More 0.98;
 
+#
+#   Set up
+#
 my $msg_tmpl = 't/.msg.tmpl';
 open(MSG, ">$msg_tmpl")     or die "$msg_tmpl: $!";
 while (<DATA>) {
@@ -11,9 +14,7 @@ close(MSG);
 #
 #   Loading module
 #
-BEGIN {
-    use_ok('XiuMai::Util::Msg');
-}
+BEGIN { use_ok('XiuMai::Util::Msg'); }
 
 #
 #   Class Methods
@@ -24,9 +25,9 @@ ok(! defined XiuMai::Util::Msg->new("/badfile"),
 
 ok(my $Msg = new XiuMai::Util::Msg($msg_tmpl),
                                     qq(XiuMai::Util::Msg->new("$msg_tmpl")));
-isa_ok($Msg, 'XiuMai::Util::Msg',   '$Msg');
+isa_ok($Msg, 'XiuMai::Util::Msg',   ref $Msg);
 
-ok(new XiuMai::Util::Msg(\*DATA),     'XiuMai::Util::Mag(DATA)');
+ok(XiuMai::Util::Msg->new(\*DATA),  'XiuMai::Util::Msg->(\*DATA)');
 
 my @TEST_CASE = (
     [ [ '#' ],                      '#',                    'comment'       ],
