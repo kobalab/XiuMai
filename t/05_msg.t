@@ -26,6 +26,8 @@ ok(my $Msg = new XiuMai::Util::Msg($msg_tmpl),
                                     qq(XiuMai::Util::Msg->new("$msg_tmpl")));
 isa_ok($Msg, 'XiuMai::Util::Msg',   '$Msg');
 
+ok(new XiuMai::Util::Msg(\*DATA),     'XiuMai::Util::Mag(DATA)');
+
 my @TEST_CASE = (
     [ [ '#' ],                      '#',                    'comment'       ],
     [ [ 'not found' ],              'not found',            'not found'     ],

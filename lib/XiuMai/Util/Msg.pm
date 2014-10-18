@@ -15,7 +15,8 @@ sub new {
     return if (! defined $msg_file);
 
     my $last_key;
-    my $fh = new IO::File($msg_file)    or return;
+    my $fh = new IO::File($msg_file)
+          || IO::File->new_from_fd($msg_file, 'r')               or return;
     while (<$fh>) {
         chomp;
         next if (/^#/);
