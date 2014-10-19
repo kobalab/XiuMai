@@ -10,15 +10,22 @@ our $VERSION = $XiuMai::VERSION;
 
 sub new {
     my $class = shift;
+    my ($req) = @_;
 
-    return bless {
+    my $self = bless {
         charset     => 'utf-8',
         lang        => 'en',
         title       => '',
         icon        => $XiuMai::PRODUCT_URL.'theme/favicon.ico',
         stylesheet  => [{href => $XiuMai::PRODUCT_URL.'theme/color-basic.css'}],
         meta        => [],
+        Request     => $req,
     }, $class;
+    if ($req) {
+        $self->charset($req->charset);
+        $self->accept_language($req->accept_language);
+    }
+    return $self;
 }
 
 sub charset {

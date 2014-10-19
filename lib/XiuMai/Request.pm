@@ -14,6 +14,12 @@ sub new {
     return bless { CGI => $cgi }, $class;
 }
 
+sub _qvalue_list {
+    my ($str) = @_;
+    return ()   if (! defined $str);
+    return map { s/;.*$//; $_ } split(/,\s*/, $str);
+}
+
 sub method {
     my $self = shift;
     return $ENV{REQUEST_METHOD};
@@ -57,6 +63,16 @@ sub base_url {
 sub param {
     my $self = shift;
     return $self->{CGI}->param(@_);
+}
+
+sub accept_language {
+    my $self = shift;
+    return _qvalue_list($ENV{HTTP_ACCEPT_LANGUAGE});
+}
+
+sub charset {
+    my $self = shift;
+    return $self->{CGI}->charset
 }
 
 1;

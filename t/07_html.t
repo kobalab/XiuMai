@@ -1,5 +1,6 @@
 use strict;
 use Test::More 0.98;
+use XiuMai::Request;
 
 #
 #   Loading module
@@ -67,5 +68,20 @@ ok($html1->accept_language('ja-JP') == $html1,
                                         '$html1->accept_language(ja-JP)');
 is($html1->accept_language, 'ja',       '$html1->accept_language eq ja');
 is($html1->msg('lang'), '日本語',       '$html1->msg (form accept_language)');
+
+#
+#   Case of create new instance with XiuMai::Request
+#
+{
+    local $ENV{HTTP_ACCEPT_LANGUAGE} = 'zh-cn';
+    my $req = new XiuMai::Request;
+
+    ok(my $html2 = XiuMai::HTML->new($req),     'XiuMai::HTML->new($req)');
+    isa_ok($html2, 'XiuMai::HTML', ref $html2);
+
+    is($html2->charset, 'utf-8',         '$html2->charset eq utf-8');
+    is($html2->accept_language, 'zh-CN', '$html2->accept_language eq zh-CN');
+    is($html2->msg('lang'), '简体中文',  '$html2->msg (from Request)');
+}
 
 done_testing;
