@@ -44,8 +44,8 @@ for my $case (@TEST_CASE) {
 
     my $res     = $c->restore->response;
     my $html    = $res->decoded_content || $res->content;
-    my ($title) = $html =~ /<title>(.*?)<\/title>/;
-    my ($msg)   = $html =~ /<p class="x\-error">(.*?)<\/p>/;
+    my ($title) = $html =~ /<title>(.*?)<\/title>/s;
+    my ($msg)   = $html =~ /<p class="x\-error">(.*?)<\/p>/s;
 
     my $exp_msg = XiuMai::Locale::get->get("error.$status.message", @param);
 
