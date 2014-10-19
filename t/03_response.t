@@ -22,9 +22,44 @@ isa_ok( new XiuMai::Response, 'XiuMai::Response', 'new XiuMai::Response');
 #   Instance Methods
 #
 
-#   print_error
+#   print_redirect
 
 my @TEST_CASE = (
+  [ 301, '/index.html',      'http://example.com/index.html'             ],
+  [ 301, 'index.html',       'http://example.com/path/index.html'        ],
+  [ 301, './index.html',     'http://example.com/path/index.html'        ],
+  [ 301, '../index.html',    'http://example.com/index.html'             ],
+  [ 303, '/?key=val#frag',   'http://example.com/?key=val#frag'          ],
+  [ 303, '?key=val#frag',    'http://example.com/path/file?key=val#frag' ],
+  [ 303, './?key=val#frag',  'http://example.com/path/?key=val#frag'     ],
+  [ 303, '../?key=val#frag', 'http://example.com/?key=val#frag'          ],
+  [ 303, '/#frag',           'http://example.com/#frag'                  ],
+  [ 303, '#frag',            'http://example.com/path/file#frag'         ],
+  [ 303, './#frag',          'http://example.com/path/#frag'             ],
+  [ 303, '../#frag',         'http://example.com/#frag'                  ],
+);
+for my $case (@TEST_CASE) {
+    my ($status, $uri, $exp_uri) = @$case;
+
+    my $c = HTTP::Request::AsCGI->new(GET 'http://example.com/path/file')
+                                ->setup;
+    local $ENV{HTTP_HOST}; $ENV{HTTP_HOST} =~ s/:80$//;
+    my $r = new XiuMai::Response(new XiuMai::Request);
+
+    $r->print_redirect($status, $uri);
+
+    my $res     = $c->restore->response;
+    my $new_uri = $res->header('Location');
+
+    cmp_ok($res->code, '==', $status,       "Status code: $status");
+    is    ($res->message, $XiuMai::Response::STATUS_LINE{$status},
+                                            "Status line: $status");
+    is    ($new_uri, $exp_uri,              "Location: $status, $uri");
+}
+
+#   print_error
+
+@TEST_CASE = (
     [ 400, [                 ] ],
     [ 401, [                 ] ],
     [ 403, [ '/path/'        ] ],

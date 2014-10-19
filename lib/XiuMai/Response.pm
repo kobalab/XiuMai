@@ -4,11 +4,14 @@ use strict;
 use warnings;
 use XiuMai;
 use XiuMai::HTML;
-use XiuMai::Util qw(cdata url_decode);
+use XiuMai::Util qw(cdata url_decode canonpath);
 
 our $VERSION = $XiuMai::VERSION;
 
 our %STATUS_LINE = (
+
+    301 => 'Moved Permanently',
+    303 => 'See Other',
 
     400 => 'Bad Request',
     401 => 'Unauthorized',
@@ -55,8 +58,24 @@ sub print_redirect {
     my $self = shift;
     my ($status, $uri) = @_;
 
+    my $status_line = $STATUS_LINE{$status} || '';
+    my ($path, $query, $fragment) = $uri =~ /^(.*?)(\?.*?)?(#.*)?$/;
+    if ($path eq '') {
+        $path = $self->_req->url;
+    }
+    elsif ($path !~ m|^/|) {
+        $self->_req->url =~ m|^(.*/)|;
+        $path = $1 . $path;
+    }
+
+    $uri = $self->_req->scheme . '://'
+         . $self->_req->host
+         . canonpath($path)
+         . (defined $query    ? $query    : '')
+         . (defined $fragment ? $fragment : '');
+
     print $self->_redirect(
-            -status => $status,
+            -status => "$status $status_line",
             -uri    => $uri
     );
 }
