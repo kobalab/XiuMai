@@ -26,14 +26,15 @@ isa_ok( new XiuMai::Request, 'XiuMai::Request', 'new XiuMai::Request');
         GET 'http://example.com/path/?key1=val1&key2=val2-1&key2=val2-2'
     )->setup;
 
+    local $ENV{HTTP_HOST}; $ENV{HTTP_HOST} =~ s/:80$//;
+
     my $r = new XiuMai::Request;
 
-    is  ($r->method, 'GET',                         'GET $r->method');
-    is  ($r->scheme, 'http',                        'GET $r->scheme');
-    like($r->host,   qr/^example\.com(?:\:80)?$/,   'GET $r->host');
-    is  ($r->url,    '/path/',                      'GET $r->url');
-    is  ($r->query,  'key1=val1&key2=val2-1&key2=val2-2',
-                                                    'GET $r->query');
+    is($r->method, 'GET',                               'GET $r->method');
+    is($r->scheme, 'http',                              'GET $r->scheme');
+    is($r->host,   'example.com',                       'GET $r->host');
+    is($r->url,    '/path/',                            'GET $r->url');
+    is($r->query,  'key1=val1&key2=val2-1&key2=val2-2', 'GET $r->query');
 
     my @key = $r->param;
     eq_set(\@key, [ 'key1','key2' ],        'GET $r->param');
