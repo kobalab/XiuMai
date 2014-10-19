@@ -6,7 +6,7 @@ use warnings;
 use XiuMai::Request;
 use XiuMai::Response;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 our $PRODUCT_NAME = "XiuMai/$VERSION";
 our $PRODUCT_URL  = 'http://www.yk.rim.or.jp/~koba/xiumai/';
@@ -40,7 +40,17 @@ sub handler {
 
 sub _do_get {
     my $self = shift;
-    $self->_res->print('<html><h1>It works!</h1></html>');
+
+    # use for DEMO
+    use XiuMai::HTML;
+    use XiuMai::Util qw(cdata);
+
+    my $html = new XiuMai::HTML($self->_req);
+    my $content = $html->title('Welcome to XiuMai!')
+                       ->lang($html->accept_language)
+                       ->as_string(
+                            qq(<h1>).cdata($html->msg('greeting')).qq(</h1>));
+    $self->_res->print($content);
 }
 
 sub _do_post {

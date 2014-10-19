@@ -2,6 +2,10 @@ Revision history for Perl extension XiuMai
 
 {{$NEXT}}
 
+0.02 2014-10-19T03:12:27Z
+
+    - demonstration of international welcome message
+
 0.01 2014-10-12T00:18:06Z
 
     - original version
