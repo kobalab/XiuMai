@@ -24,7 +24,7 @@ or mod\_perl2:
 
 XiuMai is web site construction tool. It works on perl 5.8.1 or later.
 
-But now, I'm trying refactoring. This release (on github) **does't work yet!**
+But now, I'm trying refactoring. This release (on github) **doesn't work yet!**
 
 # ENVIRONMENT VARIABLES
 
