@@ -29,6 +29,8 @@ sub new {
     }, $class;
 }
 
+sub _exit { $XiuMai::NOT_EXIT or exit @_ }
+
 sub _req {  $_[0]->{Request}    }
 sub _cgi {  $_[0]->{CGI}        }
 
@@ -52,6 +54,7 @@ sub print {
 
     print $self->_header;
     print $content          if ($self->_req->method eq 'GET');
+    _exit;
 }
 
 sub print_redirect {
@@ -78,6 +81,7 @@ sub print_redirect {
             -status => "$status $status_line",
             -uri    => $uri
     );
+    _exit;
 }
 
 sub print_error {
@@ -111,6 +115,7 @@ sub print_error {
                      -content_length => length($content),
                  );
     print $content              if ($self->_req->method ne 'HEAD');
+    _exit;
 }
 
 1;

@@ -36,7 +36,6 @@ sub handler {
     $self->_do_get      if ($self->_req->method eq 'GET');
     $self->_do_post     if ($self->_req->method eq 'POST');
     $self->_res->print_error(405);
-    exit;
 }
 
 sub _do_get {
@@ -49,7 +48,6 @@ sub _do_get {
     my $status = $self->_req->param('status');
     if (defined $status && $status =~ /^400|401|403|404|405$/) {
         $self->_res->print_error($status);
-        exit;
     }
 
     my $html = new XiuMai::HTML($self->_req);
@@ -58,15 +56,11 @@ sub _do_get {
                        ->as_string(
                             qq(<h1>).cdata($html->msg('greeting')).qq(</h1>));
     $self->_res->print($content);
-
-    exit;
 }
 
 sub _do_post {
     my $self = shift;
     $self->_res->print_redirect(303, $self->_req->url);
-
-    exit;
 }
 
 1;

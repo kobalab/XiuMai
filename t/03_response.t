@@ -22,6 +22,8 @@ isa_ok( new XiuMai::Response, 'XiuMai::Response', 'new XiuMai::Response');
 #   Instance Methods
 #
 
+$XiuMai::NOT_EXIT = 1;      ####    Now, method print_* dones NOT exit !
+
 #   print_redirect
 
 my @TEST_CASE = (
