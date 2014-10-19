@@ -3,8 +3,19 @@ package XiuMai::Response;
 use strict;
 use warnings;
 use XiuMai;
+use XiuMai::HTML;
+use XiuMai::Util qw(cdata url_decode);
 
 our $VERSION = $XiuMai::VERSION;
+
+our %STATUS_LINE = (
+
+    400 => 'Bad Request',
+    401 => 'Unauthorized',
+    403 => 'Forbidden',
+    404 => 'Not Found',
+    405 => 'Method Not Allowed',
+);
 
 sub new {
     my $class = shift;
@@ -38,7 +49,6 @@ sub print {
 
     print $self->_header;
     print $content          if ($self->_req->method eq 'GET');
-    exit;
 }
 
 sub print_redirect {
@@ -49,15 +59,39 @@ sub print_redirect {
             -status => $status,
             -uri    => $uri
     );
-    exit;
 }
 
 sub print_error {
     my $self = shift;
     my ($status) = @_;
 
-    print $self->_header(-status => $status);
-    exit;
+    my $status_line = $STATUS_LINE{$status} || '';
+
+    my $method = $self->_req->method;
+    my $url    = url_decode($self->_req->url);
+
+    my $html = new XiuMai::HTML($self->_req);
+    my $error_message
+        = $status == 400 ? $html->msg('error.400.message') :
+          $status == 401 ? $html->msg('error.401.message') :
+          $status == 403 ? $html->msg('error.403.message', $url) :
+          $status == 404 ? $html->msg('error.404.message', $url) :
+          $status == 405 ? $html->msg('error.405.message', $method, $url) :
+          '';
+
+    my $content
+        = $html->title("$status $status_line")
+               ->lang($html->accept_language)
+               ->as_string(
+                     qq(<h1>).cdata($status_line).qq(</h1>),
+                     qq(<p class="x-error">).cdata($error_message).qq(</p>)
+                 );
+
+    print $self->_header(
+                     -status         => "$status $status_line",
+                     -content_length => length($content),
+                 );
+    print $content              if ($self->_req->method ne 'HEAD');
 }
 
 1;
