@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use XiuMai;
 use XiuMai::HTML;
-use XiuMai::Util qw(cdata url_decode canonpath);
+use XiuMai::Util qw(cdata url_decode canonpath rfc1123_date);
 
 our $VERSION = $XiuMai::VERSION;
 
@@ -50,10 +50,17 @@ sub _redirect {
 
 sub print {
     my $self = shift;
-    my ($content) = @_;
+    my ($r) = @_;
 
-    print $self->_header;
-    print $content          if ($self->_req->method eq 'GET');
+    my %param;
+    $param{-type}           = $r->type  if (defined $r->type);
+    $param{-charset}        = $r->charset;
+    $param{-content_length} = $r->size  if (defined $r->size);
+    $param{-last_modified}  = rfc1123_date($r->mtime)
+                                        if (defined $r->mtime);
+
+    print $self->_header(%param);
+    $r->print               if ($self->_req->method eq 'GET');
     _exit;
 }
 

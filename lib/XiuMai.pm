@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use XiuMai::Request;
 use XiuMai::Response;
+use XiuMai::Resource;
 
 our $VERSION = "0.02";
 
@@ -41,21 +42,11 @@ sub handler {
 sub _do_get {
     my $self = shift;
 
-    # use for DEMO
-    use XiuMai::HTML;
-    use XiuMai::Util qw(cdata);
-
-    my $status = $self->_req->param('status');
-    if (defined $status && $status =~ /^400|401|403|404|405$/) {
-        $self->_res->print_error($status);
-    }
-
-    my $html = new XiuMai::HTML($self->_req);
-    my $content = $html->title('Welcome to XiuMai!')
-                       ->lang($html->accept_language)
-                       ->as_string(
-                            qq(<h1>).cdata($html->msg('greeting')).qq(</h1>));
-    $self->_res->print($content);
+    my $r = new XiuMai::Resource($self->_req)
+                         or $self->_res->print_error(404);
+    $r->open             or $self->_res->print_error(403);
+    $r->redirect        and $self->_res->print_redirect($r->redirect);
+    $self->_res->print($r);
 }
 
 sub _do_post {

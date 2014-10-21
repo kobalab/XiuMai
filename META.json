@@ -4,7 +4,7 @@
       "Satoshi Kobayashi <koba@yk.rim.or.jp>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.1.1, CPAN::Meta::Converter version 2.142690",
+   "generated_by" : "Minilla/v2.2.0, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
@@ -64,7 +64,8 @@
       },
       "homepage" : "https://github.com/kobalab/XiuMai",
       "repository" : {
-         "url" : "https://github.com/kobalab/XiuMai.git",
+         "type" : "git",
+         "url" : "git://github.com/kobalab/XiuMai.git",
          "web" : "https://github.com/kobalab/XiuMai"
       }
    },

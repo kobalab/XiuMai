@@ -13,8 +13,7 @@ sub new {
     my $class = shift;
     my @mime_file = @_;
 
-    my $self = {};
-    bless $self, $class;
+    my $self = bless {}, $class;
 
     if (! keys %default) {
         $self->_read(\*DATA);
