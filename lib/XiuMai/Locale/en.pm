@@ -2,7 +2,6 @@ use XiuMai::Util::Msg; XiuMai::Util::Msg->new(\*DATA);
 __DATA__
 # -----------------------------------------------------------------------------
 lang:English
-greeting:Hello, world.
 # -----------------------------------------------------------------------------
 error.400.message:Your browser sent a request that
 	this server could not understand.
