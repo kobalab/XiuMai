@@ -33,18 +33,26 @@ sub new {
         size        => $size,
         mtime       => $mtime,
         fh          => undef,
+        redirect    => [],
     }, $class;
 }
 
-sub _req  { $_[0]->{Request}  }
-sub type  { $_[0]->{type}     }
-sub size  { $_[0]->{size}     }
-sub mtime { $_[0]->{mtime}    }
+sub _req    { $_[0]->{Request} }
+sub type    { $_[0]->{type}    }
+sub size    { $_[0]->{size}    }
+sub mtime   { $_[0]->{mtime}   }
+sub charset { return ''        }
 
 sub open {
     my $self = shift;
     $self->{fh} = new IO::File($self->{full_name}, 'r') or return;
     return $self;
+}
+
+sub redirect {
+    my $self = shift;
+    $self->{redirect} = [ @_ ] and return $self     if (@_);
+    return @{$self->{redirect}};
 }
 
 sub print {

@@ -38,16 +38,23 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
 
     #   new
     my $r = new XiuMai::Resource($req);
-    isa_ok($r,        'XiuMai::Resource', 'new XiuMai::Resource');
-    is    ($r->type,  'image/png',        '$r->type');      # type
-    cmp_ok($r->size,  '==', 1024,         '$r->size');      # size
-    cmp_ok($r->mtime, '==', $mtime,       '$r->mtime');     # mtime
+    isa_ok($r,          'XiuMai::Resource', 'new XiuMai::Resource');
+    is    ($r->type,    'image/png',      '$r->type');      # type
+    is    ($r->charset, '',               '$r->charset');   # charset
+    cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
+    cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
     #   open
     ok    ($r->open == $r,                '$r->open');
-    is    ($r->type,  'image/png',        '$r->type');      # type
-    cmp_ok($r->size,  '==', 1024,         '$r->size');      # size
-    cmp_ok($r->mtime, '==', $mtime,       '$r->mtime');     # mtime
+    is    ($r->type,    'image/png',      '$r->type');      # type
+    is    ($r->charset, '',               '$r->charset');   # charset
+    cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
+    cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
+
+    #   redirect
+    ok    (! $r->redirect,                '$r->redirect');
+    ok    ($r->redirect(303, '/') == $r,  '$r->redirect(code, uri)');
+    eq_array(\($r->redirect), [303, '/'], '$r->redirect -> (code, uri)');
 
     #   print
     print $res->_header;
