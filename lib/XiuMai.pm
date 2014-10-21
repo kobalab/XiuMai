@@ -7,7 +7,7 @@ use XiuMai::Request;
 use XiuMai::Response;
 use XiuMai::Resource;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 our $PRODUCT_NAME = "XiuMai/$VERSION";
 our $PRODUCT_URL  = 'http://www.yk.rim.or.jp/~koba/xiumai/';

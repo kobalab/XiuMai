@@ -2,6 +2,10 @@ Revision history for Perl extension XiuMai
 
 {{$NEXT}}
 
+0.03 2014-10-21T16:04:32Z
+
+    - enable to display 'raw' contents
+
 0.02 2014-10-19T03:12:27Z
 
     - demonstration of international welcome message
