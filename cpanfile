@@ -13,5 +13,6 @@ on 'test' => sub {
     requires 'HTTP::Request::Common';
     requires 'HTTP::Request::AsCGI';
     requires 'Time::Local';
+    requires 'File::Path';
 };
 
