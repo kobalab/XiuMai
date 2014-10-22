@@ -67,6 +67,7 @@ for my $case (@TEST_CASE) {
     [ 403, [ '/path/'        ] ],
     [ 404, [ '/path/'        ] ],
     [ 405, [ 'GET', '/path/' ] ],
+    [ 406, [ '/path/'        ] ],
 );
 for my $case (@TEST_CASE) {
 

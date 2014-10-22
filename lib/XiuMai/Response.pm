@@ -18,6 +18,7 @@ our %STATUS_LINE = (
     403 => 'Forbidden',
     404 => 'Not Found',
     405 => 'Method Not Allowed',
+    406 => 'Not Acceptable',
 );
 
 sub new {
@@ -107,6 +108,7 @@ sub print_error {
           $status == 403 ? $html->msg('error.403.message', $url) :
           $status == 404 ? $html->msg('error.404.message', $url) :
           $status == 405 ? $html->msg('error.405.message', $method, $url) :
+          $status == 406 ? $html->msg('error.406.message', $url) :
           '';
 
     my $content

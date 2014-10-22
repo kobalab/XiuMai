@@ -11,4 +11,6 @@ error.401.message:This server could not verify that you are authorized
 error.403.message:You don't have permission to access {$1} on this server.
 error.404.message:The requested URL {$1} was not found on this server.
 error.405.message:The requested method {$1} is not allowed for the URL {$2}.
+error.405.message:An appropriate representation of the requested resource
+	{$1} could not be found on this server.
 # -----------------------------------------------------------------------------
