@@ -44,6 +44,11 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
     cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
+    #   redirect
+    ok    (! $r->redirect,                '$r->redirect');
+    ok    ($r->redirect(303, '/') == $r,  '$r->redirect(code, uri)');
+    eq_array(\($r->redirect), [303, '/'], '$r->redirect -> (code, uri)');
+
     #   open
     ok    ($r->open == $r,                '$r->open');
     is    ($r->type,    'image/png',      '$r->type');      # type
@@ -51,10 +56,12 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
     cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
-    #   redirect
-    ok    (! $r->redirect,                '$r->redirect');
-    ok    ($r->redirect(303, '/') == $r,  '$r->redirect(code, uri)');
-    eq_array(\($r->redirect), [303, '/'], '$r->redirect -> (code, uri)');
+    #   convert
+    ok    ($r->convert == $r,             '$r->convert');
+    is    ($r->type,    'image/png',      '$r->type');      # type
+    is    ($r->charset, '',               '$r->charset');   # charset
+    cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
+    cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
     #   print
     print $res->_header;

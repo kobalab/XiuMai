@@ -44,8 +44,9 @@ sub _do_get {
 
     my $r = new XiuMai::Resource($self->_req)
                          or $self->_res->print_error(404);
-    $r->open             or $self->_res->print_error(403);
     $r->redirect        and $self->_res->print_redirect($r->redirect);
+    $r->open             or $self->_res->print_error(403);
+    $r->convert          or $self->_res->print_error(406);
     $self->_res->print($r);
 }
 

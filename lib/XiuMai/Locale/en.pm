@@ -14,3 +14,8 @@ error.405.message:The requested method {$1} is not allowed for the URL {$2}.
 error.406.message:An appropriate representation of the requested resource
 	{$1} could not be found on this server.
 # -----------------------------------------------------------------------------
+folder.file_list.name:Name
+folder.file_list.mtime:Last Modified
+folder.file_list.size:Size
+folder.file_list.type:Type
+# -----------------------------------------------------------------------------

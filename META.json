@@ -44,6 +44,7 @@
          "requires" : {
             "CGI" : "2.57",
             "Exporter" : "0",
+            "IO::Dir" : "0",
             "IO::File" : "0",
             "perl" : "5.008001"
          }

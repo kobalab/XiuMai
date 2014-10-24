@@ -3,45 +3,73 @@ package XiuMai::Resource;
 use strict;
 use warnings;
 use XiuMai;
+use XiuMai::Resource::Folder;
 use XiuMai::Util::MimeType;
+use XiuMai::Util qw(canonpath);
+use IO::File;
 
 our $VERSION = $XiuMai::VERSION;
 
 sub new {
     my $class = shift;
-    my ($req, $filename) = @_;
+    my ($req, $path_name) = @_;
 
     my $base_dir  = XiuMai::DATA() . '/data';
     my $base_url  = $req->base_url;
     my $path_info = $req->path_info;
-    my $full_name = $base_dir . $path_info;
+    my $full_name = canonpath($base_dir.$path_info);
 
-    ! -f $full_name     and return;
-    -d $full_name       and return;
+    if (defined $path_name) {
+        if ($path_name =~ m|^/|) { $full_name = $base_dir;     }
+        else                     { $full_name =~ s|/[^/]+$|/|; }
+        $full_name .= $path_name;
+        $full_name = canonpath($full_name);
+        $full_name =~ m|^$base_dir/|    or return;
+    }
+    my ($dirname, $filename) = $full_name =~ m|^(.*/)([^/]+)|;
 
-    my $type  = XiuMai::Util::MimeType->new()->type($full_name);
-    my $size  = -s $full_name;
-    my $mtime = (stat($full_name))[9];
-
-    return bless {
+    my $self = {
         Request     => $req,
+        filename    => $filename,
         full_name   => $full_name,
         base_url    => $base_url,
         path_info   => $path_info,
         base_dir    => $base_dir,
-        type        => $type,
-        size        => $size,
-        mtime       => $mtime,
+        type        => undef,
+        size        => undef,
+        mtime       => undef,
+        charset     => '',
         fh          => undef,
         redirect    => [],
-    }, $class;
+    };
+
+    -d $full_name       and return new XiuMai::Resource::Folder($self);
+
+    -f $full_name        or return;
+
+    $self->{size}  = -s $full_name;
+    $self->{mtime} = (stat($full_name))[9];
+
+    my $type  = XiuMai::Util::MimeType->new()->type($full_name);
+    $self->{type} = $type;
+
+    return bless $self, $class;
 }
 
-sub _req    { $_[0]->{Request} }
-sub type    { $_[0]->{type}    }
-sub size    { $_[0]->{size}    }
-sub mtime   { $_[0]->{mtime}   }
-sub charset { return ''        }
+sub req       { $_[0]->{Request}   }
+sub filename  { $_[0]->{filename}  }
+sub base_url  { $_[0]->{base_url}  }
+sub path_info { $_[0]->{path_info} }
+sub type      { $_[0]->{type}      }
+sub size      { $_[0]->{size}      }
+sub mtime     { $_[0]->{mtime}     }
+sub charset   { $_[0]->{charset}   }
+
+sub redirect {
+    my $self = shift;
+    $self->{redirect} = [ @_ ] and return $self     if (@_);
+    return @{$self->{redirect}};
+}
 
 sub open {
     my $self = shift;
@@ -49,11 +77,7 @@ sub open {
     return $self;
 }
 
-sub redirect {
-    my $self = shift;
-    $self->{redirect} = [ @_ ] and return $self     if (@_);
-    return @{$self->{redirect}};
-}
+sub convert { shift }
 
 sub print {
     my $self = shift;
@@ -62,6 +86,8 @@ sub print {
     while ($self->{fh}->read($buf, 1024*1024*10)) {
         print $buf;
     }
+    $self->{fh}->close;
+    return;
 }
 
 1;
