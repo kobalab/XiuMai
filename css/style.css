@@ -2,7 +2,7 @@
  *  style.css
  */
 
-body     { font-family: verdana;    font-size: 12px; }
+body     { font-family: verdana; }
 pre      { font-family: monospace;  font-size: 100%; }
 textarea { font-family: monospace;  font-size: 100%; }
 
@@ -101,4 +101,16 @@ table.x-file_list tbody {
 table.x-file_list td.x-mtime,
 table.x-file_list td.x-size   {
     text-align: right;
+}
+
+@media screen and (min-width: 640px) {
+    body { font-size: 12px; }
+}
+@media screen and (max-width: 640px) {
+    h1 { font-size: 140%; }
+    h2 { font-size: 100%; }
+    h3 { font-size: 100%; }
+    ul, ol { padding-left: 1.5em; }
+    dd { margin-left: 1.5em; }
+    textarea { max-height: 12em; };
 }

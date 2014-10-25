@@ -102,6 +102,25 @@ sub print {
     return;
 }
 
+sub update {
+    my $self = shift;
+
+    $self->redirect(303, './?cmd=edit');
+
+    my $file = $self->req->param('file');
+    if (! defined $file || ! length $file) {
+        unlink($self->{full_name})  or return;
+        return $self;
+    }
+    my $buf;
+    my $fh = new IO::File($self->{full_name}, 'w')  or return;
+    while (read($file, $buf, 1024*1024)) {
+        print $fh $buf;
+    }
+    $fh->close;
+    return $self;
+}
+
 sub _convert { shift }
 
 sub _edit    {

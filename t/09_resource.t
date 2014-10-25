@@ -80,6 +80,56 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
     ok(! XiuMai::Resource->new($req),     'Not Found');
 }
 
+my $upload = "$ENV{PWD}/t/.tmpfile";
+open OUT, ">$upload"    or die "$upload: $!";
+print OUT '+' x (1024*4);
+close OUT;
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/test.png',
+             Content_Type => 'form-data',
+             Content      => [ file => [ $upload ] ]
+    )->setup;
+    my $req = new XiuMai::Request;
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r,          'XiuMai::Resource', 'new XiuMai::Resource');
+
+    #   update
+    ok($r->update,      '$r->update');
+
+    #   redirect
+    ok(my @red = $r->redirect,      '$r->redirect');
+    is($red[0], 303,                '$r->redirect code');
+    is($red[1], './?cmd=edit',      '$r->redirect uri');
+
+    #   check size
+    cmp_ok(-s "$ENV{XIUMAI_HOME}/data/test.png", '==', 1024*4, 'check size');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/test.png', [ file => '' ]
+    )->setup;
+    my $req = new XiuMai::Request;
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r,          'XiuMai::Resource', 'new XiuMai::Resource');
+
+    #   update
+    ok($r->update,      '$r->update');
+
+    #   redirect
+    ok(my @red = $r->redirect,      '$r->redirect');
+    is($red[0], 303,                '$r->redirect code');
+    is($red[1], './?cmd=edit',      '$r->redirect uri');
+
+    #   check size
+    ok(! -f "$ENV{XIUMAI_HOME}/data/test.png", 'remove file');
+}
+unlink($upload);
+
 rmtree($ENV{XIUMAI_HOME});
 
 done_testing;

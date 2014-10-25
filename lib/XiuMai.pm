@@ -52,7 +52,12 @@ sub _do_get {
 
 sub _do_post {
     my $self = shift;
-    return;
+
+    my $r = new XiuMai::Resource($self->_req)
+                         or $self->_res->print_error(404);
+    $r->update           or $self->_res->print_error(403);
+    $r->redirect        and $self->_res->print_redirect($r->redirect);
+    $self->_res->print_error(406);
 }
 
 1;

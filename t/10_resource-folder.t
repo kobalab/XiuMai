@@ -61,6 +61,7 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
 
     #   file
     cmp_ok(my @file = $r->file, '==', 3,  '$r->file == 3');
+    @file = sort { $a->filename cmp $b->filename } @file;
     is    ($file[0]->filename, 'test',    '($r->file)[0]->filename');
     cmp_ok($file[1]->size, '==', 20,      '($r->file)[1]->size'    );
     is    ($file[2]->type, 'image/png',   '($r->file)[2]->type'    );
@@ -78,6 +79,189 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $o = $c->restore->response;
     cmp_ok(length ($o->decoded_content || $o->content), '==', $size,
                                           'output data size');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        GET 'http://example.com/path'
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+    ok    (! defined $r->type,            '$r->type');      # type
+    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! defined $r->size,            '$r->size');      # size
+    ok    (! $r->mtime,                   '$r->mtime');     # mtime
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 301,                  '$r->redirect code');
+    is    ($red[1], '/path/',             '$r->redirect uri');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/', [ filename => 'test.txt' ]
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    ($r->update,                    '$r->update');
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 303,                  '$r->redirect code');
+    is    ($red[1], 'test.txt?cmd=edit',  '$r->redirect uri');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/', [ filename => 'test.png' ]
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    ($r->update,                    '$r->update');
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 303,                  '$r->redirect code');
+    is    ($red[1], 'test.png?cmd=edit',  '$r->redirect uri');
+
+    #   file not change
+    cmp_ok(-s "$ENV{XIUMAI_HOME}/data/path/test.png", '==', 30,
+                                          'file not chang');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/', [ filename => '' ]
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    ($r->update,                    '$r->update');
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 303,                  '$r->redirect code');
+    is    ($red[1], './?cmd=edit',        '$r->redirect uri');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/', [ dirname => 'newdir' ]
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    ($r->update,                    '$r->update');
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 303,                  '$r->redirect code');
+    is    ($red[1], 'newdir/?cmd=edit',   '$r->redirect uri');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/', [ dirname => '' ]
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    ($r->update,                    '$r->update');
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 303,                  '$r->redirect code');
+    is    ($red[1], './?cmd=edit',        '$r->redirect uri');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/newdir/'
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    ($r->update,                    '$r->update');
+
+    #   redirect
+    ok    (my @red = $r->redirect,        '$r->redirect');
+    is    ($red[0], 303,                  '$r->redirect code');
+    is    ($red[1], '../?cmd=edit',       '$r->redirect uri');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/path/'
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    (! $r->update,                   '$r->update');
+}
+
+rmtree("$ENV{XIUMAI_HOME}/data/path");
+
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com/'
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    (! $r->update,                   '$r->update');
+}
+{
+    my $c = HTTP::Request::AsCGI->new(
+        POST 'http://example.com'
+    )->setup;
+    my $req = new XiuMai::Request;
+    my $res = new XiuMai::Response($req);
+
+    #   new
+    my $r = new XiuMai::Resource($req);
+    isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
+
+    #   update
+    ok    (! $r->update,                   '$r->update');
 }
 
 rmtree($ENV{XIUMAI_HOME});
