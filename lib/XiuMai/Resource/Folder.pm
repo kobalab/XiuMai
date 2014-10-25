@@ -46,17 +46,19 @@ sub open {
     return $self;
 }
 
-sub convert {
+sub _convert {
     my $self = shift;
 
-    my $path_info = cdata($self->{path_info});
+    my $title = cdata("Folder:$self->{path_info}");
 
     my $html = new XiuMai::HTML::Folder($self);
-    $self->{html} = $html->as_string(
-                        qq(<h1>Folder:$path_info</h1>),
-                        $html->path_info,
-                        $html->file_list,
-                    );
+    $self->{html}
+        = $html->title($title)
+               ->as_string(
+                     qq(<h1>$title</h1>\n),
+                     $html->path_info,
+                     $html->file_list,
+                 );
     $self->{charset} = $html->charset;
     $self->{type}    = 'text/html';
     $self->{size}    = length $self->{html};
@@ -65,10 +67,33 @@ sub convert {
     return $self;
 }
 
-sub print {
+sub _edit {
     my $self = shift;
-    print $self->{html};
-    return;
+
+    my $title = cdata("Folder:$self->{path_info}");
+    my $query = $self->req->query;
+
+    my $html = new XiuMai::HTML::Folder($self);
+
+    my $rmdir_form = (! $self->file && $self->{path_info} ne '/')
+                        ? $html->rmdir_form : '';
+
+    $self->{html}
+        = $html->title($title)
+               ->as_string(
+                     qq(<h1><a href="./">$title</a></h1>\n),
+                     $html->path_info($query),
+                     $html->mkfile_form,
+                     $html->mkdir_form,
+                     $rmdir_form,
+                     $html->file_list($query),
+                 );
+    $self->{charset} = $html->charset;
+    $self->{type}    = 'text/html';
+    $self->{size}    = length $self->{html};
+    undef $self->{mtime};
+
+    return $self;
 }
 
 1;

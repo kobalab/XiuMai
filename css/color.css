@@ -1,0 +1,38 @@
+/*
+ *  color.css
+ */
+
+body            { background: #fff; }
+body            { color:      #000; }
+a:link          { color:      #00f; }
+a:visited       { color:      #609; }
+a:active        { color:      #f00; }
+
+h1              { border-bottom-color: #369; }
+h1 a:link       { color:      #000; }
+h1 a:visited    { color:      #000; }
+h1 a:hover      { color:      #369; }
+
+table           { border-color:        #369; }
+tr + tr         { border-color:        #999; }
+th, td          { border-color:        #999; }
+th              { background-color:    #ddd; }
+
+fieldset        { border-color:        #369; }
+
+.x-error        { color:      red;  }
+
+#x-toolbar      { border-color:        #999; }
+#x-toolbar a    { color:               #999; }
+#x-toolbar a:hover
+                { color:               #fff; }
+#x-toolbar a:hover
+                { background:          #999; }
+
+#x-footer       { border-color:        #369; }
+#x-footer a     { color:      #369; }
+
+nav.x-path_info { border-color:        #999; }
+
+table.x-file_list tbody
+                { border-color:        #999; }

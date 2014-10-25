@@ -119,9 +119,10 @@ sub as_string {
                     } @{$self->{meta}}
                );
 
-    my $footer = $self->_footer;
+    my $toolbar = $self->_toolbar;
+    my $footer  = $self->_footer;
 
-    my $html = <<"END_HTML";
+    my $html = <<"__END_HTML__";
 <!DOCTYPE html>
 <html lang="$lang">
 <head>
@@ -133,14 +134,18 @@ sub as_string {
     $meta
 </head>
 <body>
-$content$footer
+$toolbar
+$content
+$footer
 </body>
 </html>
-END_HTML
+__END_HTML__
 
     { my $x = $html, kill 0 }
     return $html;
 }
+
+sub _toolbar { '' }
 
 sub _footer {
     my $self = shift;

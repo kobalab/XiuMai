@@ -14,8 +14,24 @@ error.405.message:The requested method {$1} is not allowed for the URL {$2}.
 error.406.message:An appropriate representation of the requested resource
 	{$1} could not be found on this server.
 # -----------------------------------------------------------------------------
+toolbar.resource_menu.edit:Edit
+# -----------------------------------------------------------------------------
 folder.file_list.name:Name
 folder.file_list.mtime:Last Modified
 folder.file_list.size:Size
 folder.file_list.type:Type
+#
+folder.mkfile_form.label:Add New File
+folder.mkfile_form.filename:File Name
+folder.mkfile_form.submit:ADD
+#
+folder.mkdir_form.label:Add New Folder
+folder.mkdir_form.dirname:Folder Name
+folder.mkdir_form.submit:CREATE
+#
+folder.rmdir_form.label:Remove This Folder
+folder.rmdir_form.submit:REMOVE
+#
+resource.upload_form.label:Update This File
+resource.upload_form.submit:UPLOAD
 # -----------------------------------------------------------------------------

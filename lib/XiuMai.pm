@@ -52,7 +52,7 @@ sub _do_get {
 
 sub _do_post {
     my $self = shift;
-    $self->_res->print_redirect(303, $self->_req->url);
+    return;
 }
 
 1;

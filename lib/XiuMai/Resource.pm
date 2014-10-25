@@ -4,8 +4,9 @@ use strict;
 use warnings;
 use XiuMai;
 use XiuMai::Resource::Folder;
+use XiuMai::HTML::Resource;
 use XiuMai::Util::MimeType;
-use XiuMai::Util qw(canonpath);
+use XiuMai::Util qw(cdata canonpath);
 use IO::File;
 
 our $VERSION = $XiuMai::VERSION;
@@ -65,6 +66,8 @@ sub size      { $_[0]->{size}      }
 sub mtime     { $_[0]->{mtime}     }
 sub charset   { $_[0]->{charset}   }
 
+sub _cmd { $_[0]->req->param('cmd') || '' }
+
 sub redirect {
     my $self = shift;
     $self->{redirect} = [ @_ ] and return $self     if (@_);
@@ -77,10 +80,19 @@ sub open {
     return $self;
 }
 
-sub convert { shift }
+sub convert {
+    my $self = shift;
+    return $self->_edit     if ($self->_cmd eq 'edit');
+    return $self->_convert;
+}
 
 sub print {
     my $self = shift;
+
+    if (defined $self->{html}) {
+        print $self->{html};
+        return;
+    }
 
     my $buf;
     while ($self->{fh}->read($buf, 1024*1024*10)) {
@@ -88,6 +100,31 @@ sub print {
     }
     $self->{fh}->close;
     return;
+}
+
+sub _convert { shift }
+
+sub _edit    {
+    my $self = shift;
+
+    my $filename = cdata($self->filename);
+    my $query    = $self->req->query;
+
+    my $html = new XiuMai::HTML::Resource($self);
+    $self->{html}
+        = $html->title($filename)
+               ->as_string(
+                    qq(<h1><a href="$filename">$filename</a></h1>\n),
+                    $html->path_info($query),
+                    $html->upload_form,
+                );
+
+    $self->{charset} = $html;
+    $self->{type}    = 'text/html';
+    $self->{size}    = length $self->{html};
+    undef $self->{mtime};
+
+    return $self;
 }
 
 1;
