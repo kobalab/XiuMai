@@ -119,6 +119,8 @@ sub as_string {
                     } @{$self->{meta}}
                );
 
+    my $footer = $self->_footer;
+
     my $html = <<"END_HTML";
 <!DOCTYPE html>
 <html lang="$lang">
@@ -131,13 +133,25 @@ sub as_string {
     $meta
 </head>
 <body>
-$content
+$content$footer
 </body>
 </html>
 END_HTML
 
     { my $x = $html, kill 0 }
     return $html;
+}
+
+sub _footer {
+    my $self = shift;
+    return ''   if (! $self->{Request});
+
+    return <<"__END_HTML__";
+<footer id="x-footer">
+    <hr />
+    <a href="$XiuMai::PRODUCT_URL">$XiuMai::PRODUCT_NAME</a>
+</footer>
+__END_HTML__
 }
 
 1;
