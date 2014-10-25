@@ -2,5 +2,8 @@ name = "XiuMai"
 # badges = ["travis"]
 module_maker="ModuleBuildTiny"
 
+[no_index]
+directory=['t', 'css']
+
 [release]
 do_not_upload_to_cpan=true
