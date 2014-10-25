@@ -10,7 +10,7 @@ use XiuMai::Resource;
 our $VERSION = "0.03";
 
 our $PRODUCT_NAME = "XiuMai/$VERSION";
-our $PRODUCT_URL  = 'http://www.yk.rim.or.jp/~koba/xiumai/';
+our $PRODUCT_URL  = 'http://kobalab.net/xiumai/';
 
 sub HOME {
     defined $ENV{XIUMAI_HOME}   or die '$XIUMAI_HOME not set.';

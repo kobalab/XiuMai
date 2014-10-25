@@ -16,8 +16,8 @@ sub new {
         charset     => 'utf-8',
         lang        => 'en',
         title       => '',
-        icon        => $XiuMai::PRODUCT_URL.'theme/favicon.ico',
-        stylesheet  => [{href => $XiuMai::PRODUCT_URL.'theme/color-basic.css'}],
+        icon        => $XiuMai::PRODUCT_URL.'css/icon.png',
+        stylesheet  => [{href => $XiuMai::PRODUCT_URL.'css/xiumai.css'}],
         meta        => [],
         Request     => $req,
     }, $class;
@@ -126,7 +126,7 @@ sub as_string {
     <meta charset="$charset" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>$title</title>
-    <link rel="icon" type="image/x-icon" href="$icon_url" />
+    <link rel="icon" type="image/png" href="$icon_url" />
     $stylesheet
     $meta
 </head>
