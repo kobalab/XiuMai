@@ -13,7 +13,7 @@ our $PRODUCT_NAME = "XiuMai/$VERSION";
 our $PRODUCT_URL  = 'http://kobalab.net/xiumai/';
 
 sub HOME {
-    defined $ENV{XIUMAI_HOME}   or die '$XIUMAI_HOME not set.';
+    defined $ENV{XIUMAI_HOME}   or die '$XIUMAI_HOME not set.'."\n";
     return $ENV{XIUMAI_HOME};
 }
 sub DATA {
@@ -33,10 +33,13 @@ sub _res {   $_[0]->{Response}  }
 
 sub handler {
     my $self = new XiuMai;
-    $self->_do_get      if ($self->_req->method eq 'HEAD');
-    $self->_do_get      if ($self->_req->method eq 'GET');
-    $self->_do_post     if ($self->_req->method eq 'POST');
-    $self->_res->print_error(405);
+    eval {
+        $self->_do_get      if ($self->_req->method eq 'HEAD');
+        $self->_do_get      if ($self->_req->method eq 'GET');
+        $self->_do_post     if ($self->_req->method eq 'POST');
+        $self->_res->print_error(405);
+    };
+    $self->_res->print_error(500, $@);
 }
 
 sub _do_get {

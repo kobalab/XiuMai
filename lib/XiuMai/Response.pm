@@ -19,6 +19,8 @@ our %STATUS_LINE = (
     404 => 'Not Found',
     405 => 'Method Not Allowed',
     406 => 'Not Acceptable',
+
+    500 => 'Internal Server Error',
 );
 
 sub new {
@@ -94,7 +96,7 @@ sub print_redirect {
 
 sub print_error {
     my $self = shift;
-    my ($status) = @_;
+    my ($status, $message) = @_;
 
     my $status_line = $STATUS_LINE{$status} || '';
 
@@ -109,14 +111,22 @@ sub print_error {
           $status == 404 ? $html->msg('error.404.message', $url) :
           $status == 405 ? $html->msg('error.405.message', $method, $url) :
           $status == 406 ? $html->msg('error.406.message', $url) :
+          $status == 500 ? $html->msg('error.500.message') :
           '';
+    $error_message = qq(<p class="x-error">).cdata($error_message).qq(</p>\n);
+    if (defined $message) {
+        $error_message
+            .= qq(<p class="x-error">)
+             . join(qq(<br />), map { cdata($_) } split(/\n/, $message))
+             . qq(</p>\n);
+    }
 
     my $content
         = $html->title("$status $status_line")
                ->lang($html->accept_language)
                ->as_string(
-                     qq(<h1>).cdata($status_line).qq(</h1>),
-                     qq(<p class="x-error">).cdata($error_message).qq(</p>)
+                     qq(<h1>).cdata($status_line).qq(</h1>\n),
+                     $error_message,
                  );
 
     print $self->_header(

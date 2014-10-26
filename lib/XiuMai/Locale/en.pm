@@ -13,6 +13,8 @@ error.404.message:The requested URL {$1} was not found on this server.
 error.405.message:The requested method {$1} is not allowed for the URL {$2}.
 error.406.message:An appropriate representation of the requested resource
 	{$1} could not be found on this server.
+error.500.message:The server encountered an internal error or misconfiguration
+	and was unable to complete your request.
 # -----------------------------------------------------------------------------
 toolbar.resource_menu.edit:Edit
 # -----------------------------------------------------------------------------
