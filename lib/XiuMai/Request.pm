@@ -2,6 +2,7 @@ package XiuMai::Request;
 
 use strict;
 use warnings;
+use XiuMai::Util qw(url_encode);
 use CGI;
 
 our $VERSION = "0.04";
@@ -56,7 +57,7 @@ sub path_info {
 
 sub base_url {
     my $self = shift;
-    return $ENV{SCRIPT_NAME};
+    return url_encode($ENV{SCRIPT_NAME}, 'rude');
 }
 
 sub param {
