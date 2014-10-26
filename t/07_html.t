@@ -47,9 +47,9 @@ is($html1->icon, '/favicon.ico',            '$html1->icon eq /favicon.ico');
 
 #   stylesheet
 
-like(($html1->stylesheet)[0]{href}, qr/^$XiuMai::PRODUCT_URL/,
+cmp_ok(my @s = $html1->stylesheet, '==', 1, '$html1->stylesheet');
+like($s[0]{href}, qr/^$XiuMai::PRODUCT_URL/,
                             '$html1->stylesheet like $XiuMai::PRODUCT_URL');
-cmp_ok(my $s = $html1->stylesheet, '==', 1, '$html1->stylesheet');
 ok($html1->stylesheet('a', 'b') == $html1,  '$html1->stylesheet(a, b)');
 eq_array(\($html1->stylesheet), ['a', 'b'], '$html1->stylesheet eq (a, b)');
 
