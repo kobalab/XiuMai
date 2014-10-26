@@ -2,12 +2,11 @@ package XiuMai::Util;
 
 use strict;
 use warnings;
-use XiuMai;
 use Exporter ();
 
 use base 'Exporter';
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 our @EXPORT_OK = qw(
     cdata url_encode url_decode

@@ -2,13 +2,12 @@ package XiuMai::HTML::Folder;
 
 use strict;
 use warnings;
-use XiuMai;
 use XiuMai::HTML::Resource;
 use XiuMai::Util qw(cdata url_encode date_str size_str);
 
 use base 'XiuMai::HTML::Resource';
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 sub file_list {
     my $self = shift;

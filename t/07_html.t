@@ -9,6 +9,7 @@ BEGIN { use_ok('XiuMai::HTML'); }
 #
 #   Class Variables
 #
+use XiuMai;
 is($XiuMai::HTML::VERSION, $XiuMai::VERSION, '$VERSION');
 
 #

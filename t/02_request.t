@@ -11,6 +11,7 @@ BEGIN { use_ok('XiuMai::Request');  }
 #
 #   Class Variables
 #
+use XiuMai;
 is($XiuMai::Request::VERSION, $XiuMai::VERSION, '$VERSION');
 
 #

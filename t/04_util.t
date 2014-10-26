@@ -15,6 +15,7 @@ BEGIN {
 #
 #   Class Variables
 #
+use XiuMai;
 is($XiuMai::Util::VERSION, $XiuMai::VERSION, '$VERSION');
 
 #

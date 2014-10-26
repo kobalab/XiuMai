@@ -9,6 +9,7 @@ BEGIN { use_ok('XiuMai::Locale'); }
 #
 #   Class Variables
 #
+use XiuMai;
 is($XiuMai::Locale::VERSION, $XiuMai::VERSION, '$VERSION');
 
 #

@@ -6,7 +6,7 @@ use XiuMai;
 use XiuMai::Locale;
 use XiuMai::Util qw(cdata);
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 sub new {
     my $class = shift;

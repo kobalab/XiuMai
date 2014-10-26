@@ -19,6 +19,7 @@ BEGIN { use_ok('XiuMai::Util::MimeType'); }
 #
 #   Class Variables
 #
+use XiuMai;
 is($XiuMai::Util::MimeType::VERSION, $XiuMai::VERSION, '$VERSION');
 
 #

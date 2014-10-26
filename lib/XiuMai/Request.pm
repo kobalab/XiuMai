@@ -2,10 +2,9 @@ package XiuMai::Request;
 
 use strict;
 use warnings;
-use XiuMai;
 use CGI;
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 sub new {
     my $class = shift;

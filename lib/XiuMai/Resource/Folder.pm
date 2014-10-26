@@ -2,7 +2,6 @@ package XiuMai::Resource::Folder;
 
 use strict;
 use warnings;
-use XiuMai;
 use XiuMai::Resource;
 use XiuMai::HTML::Folder;
 use XiuMai::Util qw(cdata url_encode);
@@ -11,7 +10,7 @@ use IO::File;
 
 use base 'XiuMai::Resource';
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 sub new {
     my $class = shift;

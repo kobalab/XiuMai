@@ -2,10 +2,9 @@ package XiuMai::Locale;
 
 use strict;
 use warnings;
-use XiuMai;
 use XiuMai::Util::Msg;
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 my %locale = ( en => undef, ja => undef, zh_CN => undef );
 

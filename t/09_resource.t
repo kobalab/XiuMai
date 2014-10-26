@@ -24,6 +24,7 @@ BEGIN { use_ok('XiuMai::Resource');  }
 #
 #   Class Variables
 #
+use XiuMai;
 is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
 
 #

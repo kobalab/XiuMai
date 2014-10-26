@@ -2,10 +2,9 @@ package XiuMai::Util::MimeType;
 
 use strict;
 use warnings;
-use XiuMai;
 use IO::File;
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 my %default;
 

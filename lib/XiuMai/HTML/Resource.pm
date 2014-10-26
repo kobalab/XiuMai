@@ -2,13 +2,12 @@ package XiuMai::HTML::Resource;
 
 use strict;
 use warnings;
-use XiuMai;
 use XiuMai::HTML;
 use XiuMai::Util qw(cdata url_encode);
 
 use base 'XiuMai::HTML';
 
-our $VERSION = $XiuMai::VERSION;
+our $VERSION = "0.03";
 
 sub new {
     my $class = shift;
