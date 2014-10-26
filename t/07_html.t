@@ -77,7 +77,6 @@ is($html1->_footer, '',                 '$html1->_footer eq \'\'');
 #
 #   Case of create new instance with XiuMai::Request
 #
-use XiuMai::Request;    #### TODO: fix undefined $VERSION problem
 {
     local $ENV{HTTP_ACCEPT_LANGUAGE} = 'zh-cn';
     my $req = new XiuMai::Request;
