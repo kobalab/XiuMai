@@ -51,7 +51,7 @@ sub new {
     $self->{size}  = -s $full_name;
     $self->{mtime} = (stat($full_name))[9];
 
-    my $type  = XiuMai::Util::MimeType->new()->type($full_name);
+    my $type  = XiuMai::Util::MimeType->new()->type($filename);
     $self->{type} = $type;
 
     return bless $self, $class;
