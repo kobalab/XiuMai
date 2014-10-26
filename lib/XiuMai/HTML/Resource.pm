@@ -7,7 +7,7 @@ use XiuMai::Util qw(cdata url_encode);
 
 use base 'XiuMai::HTML';
 
-our $VERSION = "0.03";
+our $VERSION = "0.04";
 
 sub new {
     my $class = shift;

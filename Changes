@@ -2,6 +2,10 @@ Revision history for Perl extension XiuMai
 
 {{$NEXT}}
 
+0.04 2014-10-26T08:03:24Z
+
+    - enable mkdir, rmdir and upload file
+
 0.03 2014-10-21T16:04:32Z
 
     - enable to display 'raw' contents

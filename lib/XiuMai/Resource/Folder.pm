@@ -10,7 +10,7 @@ use IO::File;
 
 use base 'XiuMai::Resource';
 
-our $VERSION = "0.03";
+our $VERSION = "0.04";
 
 sub new {
     my $class = shift;
