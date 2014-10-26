@@ -102,6 +102,10 @@ table.x-file_list td.x-mtime,
 table.x-file_list td.x-size   {
     text-align: right;
 }
+table.x-file_list th.x-name  { width: 40%; }
+table.x-file_list th.x-mtime { width: 15%; }
+table.x-file_list th.x-size  { width: 15%; }
+table.x-file_list th.x-type  { width: 30%; }
 
 @media screen and (min-width: 640px) {
     body { font-size: 12px; }
