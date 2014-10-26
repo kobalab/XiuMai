@@ -12,13 +12,8 @@ our $VERSION = "0.04";
 our $PRODUCT_NAME = "XiuMai/$VERSION";
 our $PRODUCT_URL  = 'http://kobalab.net/xiumai/';
 
-sub HOME {
-    defined $ENV{XIUMAI_HOME}   or die '$XIUMAI_HOME not set.'."\n";
-    return $ENV{XIUMAI_HOME};
-}
-sub DATA {
-    return defined $ENV{XIUMAI_DATA} ? $ENV{XIUMAI_DATA} : HOME;
-}
+sub HOME { $ENV{XIUMAI_HOME} or die '$XIUMAI_HOME not set.'."\n"; }
+sub DATA { $ENV{XIUMAI_DATA} || HOME; }
 
 sub new {
     my $class = shift;
