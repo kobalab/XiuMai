@@ -123,7 +123,6 @@ sub print_error {
 
     my $content
         = $html->title("$status $status_line")
-               ->lang($html->accept_language)
                ->as_string(
                      qq(<h1>).cdata($status_line).qq(</h1>\n),
                      $error_message,

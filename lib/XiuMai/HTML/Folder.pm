@@ -14,7 +14,6 @@ sub file_list {
     my ($query) = @_;
 
     $query    = $query ? "?$query" : '';
-    my $lang  = cdata($self->accept_language);
 
     my @file = sort { $a->filename cmp $b->filename } $self->_r->file;
 
@@ -24,7 +23,7 @@ sub file_list {
     my $mtime = cdata($self->msg('folder.file_list.mtime'));
     my $size  = cdata($self->msg('folder.file_list.size'));
     my $type  = cdata($self->msg('folder.file_list.type'));
-    $html .= qq(<thead lang="$lang"><tr>)
+    $html .= qq(<thead><tr>)
            . qq(<th class="x-name">$name</th>)
            . qq(<th class="x-mtime">$mtime</th>)
            . qq(<th class="x-size">$size</th>)
