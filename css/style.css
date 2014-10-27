@@ -2,7 +2,7 @@
  *  style.css
  */
 
-body     { font-family: verdana; }
+body     { font-family: "Lucida Grande", Arial, sans-serif ; }
 pre      { font-family: monospace;  font-size: 100%; }
 textarea { font-family: monospace;  font-size: 100%; }
 
