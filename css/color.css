@@ -32,6 +32,9 @@ fieldset        { border-color:        #369; }
 #x-footer       { border-color:        #369; }
 #x-footer a     { color:      #369; }
 
+form.x-login_form
+                { border-color:        #999; }
+
 nav.x-path_info { border-color:        #999; }
 
 table.x-file_list tbody

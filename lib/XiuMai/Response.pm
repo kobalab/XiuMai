@@ -136,4 +136,24 @@ sub print_error {
     _exit;
 }
 
+sub print_login_form {
+    my $self = shift;
+
+    my $html = new XiuMai::HTML($self->_req);
+
+    my $title = cdata($html->msg('login_form.title'));
+    my $url   = cdata($self->_req->url);
+
+    my $content
+        = $html->title($title)
+               ->as_string(
+                     qq(<h1><a href="$url">).cdata($title).qq(</a></h1>\n),
+                     $html->login_form,
+                 );
+
+    print $self->_header;
+    print $content              if ($self->_req->method ne 'HEAD');
+    _exit;
+}
+
 1;

@@ -12,7 +12,14 @@ error.406.message:要求された資源 {$1}
 	に対する適切な表現がこのサーバにありません。
 error.500.message:内部エラーまたは設定ミスのため、リクエストを完了できませんでした。
 # -----------------------------------------------------------------------------
+toolbar.user_menu.login:ログイン
+toolbar.user_menu.logout:ログアウト
 toolbar.resource_menu.edit:編集
+# -----------------------------------------------------------------------------
+login_form.title:ログイン
+login_form.login_name:ログイン名
+login_form.passwd:パスワード
+login_form.submit:ログイン
 # -----------------------------------------------------------------------------
 folder.file_list.name:名前
 folder.file_list.mtime:変更日

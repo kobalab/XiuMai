@@ -11,7 +11,14 @@ error.405.message:请求方法 {$1} 在 {$2} 上不允许。
 error.406.message:{$1} 没有恰当的表示方式。
 error.500.message:内部服务器错误。无法完成对请求的处理。
 # -----------------------------------------------------------------------------
+toolbar.user_menu.login:登录
+toolbar.user_menu.logout:注销
 toolbar.resource_menu.edit:编辑
+# -----------------------------------------------------------------------------
+login_form.title:登录
+login_form.login_name:账号
+login_form.passwd:密码
+login_form.submit:登录
 # -----------------------------------------------------------------------------
 folder.file_list.name:名称
 folder.file_list.mtime:修改日期

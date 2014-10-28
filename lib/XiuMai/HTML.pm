@@ -146,7 +146,35 @@ __END_HTML__
     return $html;
 }
 
-sub _toolbar { '' }
+sub _toolbar {
+    my $self = shift;
+    return ''   if (! $self->{Request});
+
+    my $user_menu     = $self->_user_menu;
+    my $resource_menu = $self->_resource_menu;
+
+    return  qq(\n<header id="x-toolbar">\n)
+          . $user_menu
+          . $resource_menu
+          . qq(\t<div style="clear: both"><div />\n)
+          . qq(\t<hr />\n)
+          . qq(</header>\n);
+}
+
+sub _user_menu {
+    my $self = shift;
+
+    my $login  = cdata($self->msg('toolbar.user_menu.login'));
+    my $logout = cdata($self->msg('toolbar.user_menu.logout'));
+
+    return <<"__END_HTML__";
+    <ul class="x-user_menu">
+        <li><a href="?cmd=login">$login</a></li>
+    </ul>
+__END_HTML__
+}
+
+sub _resource_menu { '' };
 
 sub _footer {
     my $self = shift;
@@ -157,6 +185,30 @@ sub _footer {
     <hr />
     <a href="$XiuMai::PRODUCT_URL">$XiuMai::PRODUCT_NAME</a>
 </footer>
+__END_HTML__
+}
+
+sub login_form {
+    my $self = shift;
+
+    my $url        = cdata($self->{Request}->url);
+    my $login_name = cdata($self->msg('login_form.login_name'));
+    my $passwd     = cdata($self->msg('login_form.passwd'));
+    my $submit     = cdata($self->msg('login_form.submit'));
+
+    return <<"__END_HTML__";
+<form class="x-login_form" method="post" action="$url">
+<div>
+    <input name="cmd" value="login" type="hidden" />
+    <dl>
+    <dt>$login_name</dt>
+    <dd><input name="login_name" /></dd>
+    <dt>$passwd</dt>
+    <dd><input name="passwd" type="password" /></dd>
+    </dl>
+    <input type="submit" value="$submit" />
+</div>
+</form>
 __END_HTML__
 }
 

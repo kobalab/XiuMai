@@ -16,6 +16,13 @@ h1 a {
     text-decoration: none;
 }
 
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-bottom: 1em;
+}
+
 table {
     margin: 1em auto;
     border-collapse: collapse;
@@ -56,7 +63,7 @@ fieldset {
     display: inline;
 }
 #x-toolbar a {
-    padding: 2px 1em;
+    padding: 2px 0.5em;
     text-decoration: none;
 }
 #x-toolbar hr {
@@ -75,6 +82,19 @@ fieldset {
 }
 #x-footer a {
     text-decoration: none;
+}
+
+form.x-login_form {
+    width: 320px;
+    margin: 40px auto;
+    border: solid 1px;
+    border-radius: 10px;
+}
+form.x-login_form > div {
+    margin: 16px 24px;
+}
+form.x-login_form dd {
+    margin-left: 0px;
 }
 
 nav.x-path_info {
@@ -116,7 +136,14 @@ table.x-file_list th.x-type  { width: 30%; }
     h3 { font-size: 100%; }
     ul, ol { padding-left: 1.5em; }
     dd { margin-left: 1.5em; }
-    textarea { max-height: 12em; };
+    textarea { max-height: 12em; }
+    form.x-login_form {
+        width: auto;
+        margin: 1em auto;
+        border: none;
+    }
+    #x-toolbar li { padding-left: 1em; }
+    #x-toolbar a  { padding: 2px;      }
     table.x-file_list th.x-name  { width: auto; }
     table.x-file_list th.x-mtime { width: auto; }
     table.x-file_list th.x-size  { width: auto; }

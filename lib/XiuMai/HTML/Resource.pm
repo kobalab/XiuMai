@@ -59,20 +59,15 @@ sub upload_form {
 __END_HTML__
 }
 
-sub _toolbar {
+sub _resource_menu {
     my $self = shift;
 
     my $edit = cdata($self->msg('toolbar.resource_menu.edit'));
 
     return <<"__END_HTML__";
-
-<header id="x-toolbar">
     <ul class="x-resource_menu">
         <li><a href="?cmd=edit" accesskey="e">$edit</a></li>
     </ul>
-    <div style="clear: both"></div>
-    <hr />
-</header>
 __END_HTML__
 }
 

@@ -16,7 +16,14 @@ error.406.message:An appropriate representation of the requested resource
 error.500.message:The server encountered an internal error or misconfiguration
 	and was unable to complete your request.
 # -----------------------------------------------------------------------------
+toolbar.user_menu.login:Login
+toolbar.user_menu.logout:Logout
 toolbar.resource_menu.edit:Edit
+# -----------------------------------------------------------------------------
+login_form.title:Login
+login_form.login_name:Login Name
+login_form.passwd:Password
+login_form.submit:LOGIN
 # -----------------------------------------------------------------------------
 folder.file_list.name:Name
 folder.file_list.mtime:Last Modified
