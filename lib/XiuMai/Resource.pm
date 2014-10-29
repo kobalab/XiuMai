@@ -138,7 +138,7 @@ sub _edit    {
                     $html->upload_form,
                 );
 
-    $self->{charset} = $html;
+    $self->{charset} = $html->charset;
     $self->{type}    = 'text/html';
     $self->{size}    = length $self->{html};
     undef $self->{mtime};
