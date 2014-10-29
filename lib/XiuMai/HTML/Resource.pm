@@ -26,7 +26,8 @@ sub path_info {
     $query = $query ? cdata("?$query") : '';
 
     my $path_info = $self->_r->path_info;
-    $path_info =~ s|^/(.*)(?:/[^/]*)?$|$1|;
+    $path_info =~ s|/[^/]*$||;
+    $path_info =~ s|^/||;
 
     my $html = qq(<nav class="x-path_info">);
     my $url  = cdata($self->_r->base_url).'/';
