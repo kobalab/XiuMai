@@ -89,7 +89,7 @@ sub get_login_name {
     $login_name =~ /^(.*)$/ and $login_name = $1;
 
     my $now = time;
-    unlink($now, $now, $cookie_file)    or die "$cookie_file: $!\n";
+    utime($now, $now, $cookie_file)     or die "$cookie_file: $!\n";
 
     return $login_name;
 }

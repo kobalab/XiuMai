@@ -65,15 +65,22 @@ ok(! -f $cookie_file,       '_cleanup_auth_cookie: success');
 
 #   login
 
-ok(my $cookie = XiuMai::Auth::login('john','lennon'),
+ok($cookie = XiuMai::Auth::login('john','lennon'),
                                             'login: success');
 ok(! XiuMai::Auth::_login('paul','simon'),  'login: wrong password');
 ok(! XiuMai::Auth::_login('pete','best'),   'login: login_name not found');
 
 #   get_login_name
 
+$cookie_file = "$ENV{XIUMAI_HOME}/var/cookie/$cookie";
+utime($old_time, $old_time, $cookie_file);
+
 is(XiuMai::Auth::get_login_name($cookie), 'john',
                                             'get_login_name: success');
+XiuMai::Auth::_cleanup_auth_cookie;
+is(XiuMai::Auth::get_login_name($cookie), 'john',
+                                            'get_login_name: not expire');
+
 ok(! XiuMai::Auth::get_login_name('bad_cookie'),
                                             'get_login_name: fail');
 
