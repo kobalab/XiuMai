@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use XiuMai;
 use XiuMai::HTML;
+use XiuMai::Auth;
 use XiuMai::Util qw(cdata url_decode canonpath rfc1123_date);
 
 our $VERSION = "0.04";
@@ -35,20 +36,23 @@ sub new {
 sub _exit { $XiuMai::NOT_EXIT or exit @_ }
 
 sub _req {  $_[0]->{Request}    }
-sub _cgi {  $_[0]->{CGI}        }
 
 sub _header {
     my $self = shift;
     my %param = @_ == 1 ? ( -type => shift @_ ) : @_;
 
-    $self->_cgi->header(%param);
+    $param{-cookie} = [ $self->_auth_cookie ];
+
+    $self->{CGI}->header(%param);
 }
 
 sub _redirect {
     my $self = shift;
     my %param = @_ == 1 ? ( -uri => shift @_ ) : @_;
 
-    $self->_cgi->redirect(%param);
+    $param{-cookie} = [ $self->_auth_cookie ];
+
+    $self->{CGI}->redirect(%param);
 }
 
 sub print {
@@ -154,6 +158,48 @@ sub print_login_form {
     print $self->_header;
     print $content              if ($self->_req->method ne 'HEAD');
     _exit;
+}
+
+sub login {
+    my $self = shift;
+
+    my $login_name = $self->_req->param('login_name');
+    my $passwd     = $self->_req->param('passwd');
+    my $cookie = XiuMai::Auth::login($login_name, $passwd)
+                                                or $self->print_error(401);
+    my $path = $self->_req->base_url;
+
+    $self->{auth_cookie}
+        = $self->{CGI}->cookie(
+                -name    => 'XIUMAI_AUTH',
+                -value   => $cookie,
+                -path    => $path,
+                -expires => qq(+${XiuMai::Auth::EXPDATE}d),
+          );
+
+    $self->print_redirect(303, $self->_req->url);
+}
+
+sub logout {
+    my $self = shift;
+    XiuMai::Auth::logout($self->{CGI}->cookie('XIUMAI_AUTH'));
+    $self->print_redirect(303, $self->_req->url);
+}
+
+sub _auth_cookie {
+    my $self = shift;
+    return $self->{auth_cookie}     if (defined $self->{auth_cookie});
+
+    my $cookie  = $self->{CGI}->cookie('XIUMAI_AUTH')   or return;
+    my $path    = $self->_req->base_url;
+    my $expdate = defined $self->_req->login_name
+                        ? qq(+${XiuMai::Auth::EXPDATE}d) : '-1d';
+    return $self->{CGI}->cookie(
+                -name    => 'XIUMAI_AUTH',
+                -value   => $cookie,
+                -path    => $path,
+                -expires => $expdate,
+           );
 }
 
 1;

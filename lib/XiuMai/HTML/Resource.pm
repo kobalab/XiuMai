@@ -63,6 +63,8 @@ __END_HTML__
 sub _resource_menu {
     my $self = shift;
 
+    return ''   if (! defined $self->{Request}->login_name);
+
     my $edit = cdata($self->msg('toolbar.resource_menu.edit'));
 
     return <<"__END_HTML__";

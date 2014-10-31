@@ -40,8 +40,10 @@ sub handler {
 sub _do_get {
     my $self = shift;
 
-    my $cmd = $self->_req->param('cmd');
-    $cmd eq 'login'     and $self->_res->print_login_form;
+    if (my $cmd = $self->_req->param('cmd')) {
+        $cmd eq 'login'     and $self->_res->print_login_form;
+        $cmd eq 'logout'    and $self->_res->logout;
+    }
 
     my $r = new XiuMai::Resource($self->_req)
                          or $self->_res->print_error(404);
@@ -54,8 +56,9 @@ sub _do_get {
 sub _do_post {
     my $self = shift;
 
-    my $cmd = $self->_req->param('cmd');
-    $cmd eq 'login'     and die "Not yet implement!\n";
+    if (my $cmd = $self->_req->param('cmd')) {
+        $cmd eq 'login'     and $self->_res->login;
+    }
 
     my $r = new XiuMai::Resource($self->_req)
                          or $self->_res->print_error(404);

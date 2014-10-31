@@ -167,11 +167,11 @@ sub _user_menu {
     my $login  = cdata($self->msg('toolbar.user_menu.login'));
     my $logout = cdata($self->msg('toolbar.user_menu.logout'));
 
-    return <<"__END_HTML__";
-    <ul class="x-user_menu">
-        <li><a href="?cmd=login">$login</a></li>
-    </ul>
-__END_HTML__
+    return qq(\t<ul class="x-user_menu">\n)
+         . (! defined $self->{Request}->login_name
+                ? qq(\t\t<li><a href="?cmd=login">$login</a></li>\n)
+                : qq(\t\t<li><a href="?cmd=logout">$logout</a></li>\n))
+         . qq(\t</ul>\n);
 }
 
 sub _resource_menu { '' };

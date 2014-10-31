@@ -2,6 +2,7 @@ package XiuMai::Request;
 
 use strict;
 use warnings;
+use XiuMai::Auth;
 use XiuMai::Util qw(url_encode);
 use CGI;
 
@@ -73,6 +74,13 @@ sub accept_language {
 sub charset {
     my $self = shift;
     return $self->{CGI}->charset
+}
+
+sub login_name {
+    my $self = shift;
+    return $self->{login_name}  if (exists $self->{login_name});
+    $self->{login_name}
+        = XiuMai::Auth::get_login_name($self->{CGI}->cookie('XIUMAI_AUTH'));
 }
 
 1;
