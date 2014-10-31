@@ -34,7 +34,7 @@ sub handler {
         $self->_do_post     if ($self->_req->method eq 'POST');
         $self->_res->print_error(405);
     };
-    $self->_res->print_error(500, $@);
+    $self->_res->print_error(500, $@)   if ($@ !~ /^ModPerl::Util::exit:/);
 }
 
 sub _do_get {
