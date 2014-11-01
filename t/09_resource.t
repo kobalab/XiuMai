@@ -50,8 +50,8 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
     ok    ($r->redirect(303, '/') == $r,  '$r->redirect(code, uri)');
     eq_array(\($r->redirect), [303, '/'], '$r->redirect -> (code, uri)');
 
-    #   open
-    ok    ($r->open == $r,                '$r->open');
+    #   _open
+    ok    ($r->_open == $r,               '$r->_open');
     is    ($r->type,    'image/png',      '$r->type');      # type
     is    ($r->charset, '',               '$r->charset');   # charset
     cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
@@ -97,8 +97,8 @@ close OUT;
     my $r = new XiuMai::Resource($req);
     isa_ok($r,          'XiuMai::Resource', 'new XiuMai::Resource');
 
-    #   update
-    ok($r->update,      '$r->update');
+    #   _update
+    ok($r->_update,     '$r->_update');
 
     #   redirect
     ok(my @red = $r->redirect,      '$r->redirect');
@@ -118,8 +118,8 @@ close OUT;
     my $r = new XiuMai::Resource($req);
     isa_ok($r,          'XiuMai::Resource', 'new XiuMai::Resource');
 
-    #   update
-    ok($r->update,      '$r->update');
+    #   _update
+    ok($r->_update,     '$r->_update');
 
     #   redirect
     ok(my @red = $r->redirect,      '$r->redirect');

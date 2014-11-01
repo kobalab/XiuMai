@@ -68,6 +68,9 @@ sub charset   { $_[0]->{charset}   }
 
 sub _cmd { $_[0]->req->param('cmd') || '' }
 
+sub _r_ok { 1 }
+sub _w_ok { defined $_[0]->req->login_name }
+
 sub redirect {
     my $self = shift;
     $self->{redirect} = [ @_ ] and return $self     if (@_);
@@ -76,8 +79,9 @@ sub redirect {
 
 sub open {
     my $self = shift;
-    $self->{fh} = new IO::File($self->{full_name}, 'r') or return;
-    return $self;
+    return if (! $self->_r_ok);
+    return if (! $self->_w_ok && $self->_cmd);
+    return $self->_open(@_);
 }
 
 sub convert {
@@ -104,20 +108,13 @@ sub print {
 
 sub update {
     my $self = shift;
+    return if (! $self->_w_ok);
+    return $self->_update(@_);
+}
 
-    $self->redirect(303, './?cmd=edit');
-
-    my $file = $self->req->param('file');
-    if (! defined $file || ! length $file) {
-        unlink($self->{full_name})  or return;
-        return $self;
-    }
-    my $buf;
-    my $fh = new IO::File($self->{full_name}, 'w')  or return;
-    while (read($file, $buf, 1024*1024)) {
-        print $fh $buf;
-    }
-    $fh->close;
+sub _open {
+    my $self = shift;
+    $self->{fh} = new IO::File($self->{full_name})  or return;
     return $self;
 }
 
@@ -143,6 +140,25 @@ sub _edit    {
     $self->{size}    = length $self->{html};
     undef $self->{mtime};
 
+    return $self;
+}
+
+sub _update {
+    my $self = shift;
+
+    $self->redirect(303, './?cmd=edit');
+
+    my $file = $self->req->param('file');
+    if (! defined $file || ! length $file) {
+        unlink($self->{full_name})  or return;
+        return $self;
+    }
+    my $buf;
+    my $fh = new IO::File($self->{full_name}, 'w')  or return;
+    while (read($file, $buf, 1024*1024)) {
+        print $fh $buf;
+    }
+    $fh->close;
     return $self;
 }
 

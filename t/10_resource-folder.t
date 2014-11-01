@@ -53,8 +53,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     ok    (! defined $r->size,            '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
-    #   open
-    ok    ($r->open == $r,                '$r->open');
+    #   _open
+    ok    ($r->_open == $r,               '$r->_open');
     ok    (! defined $r->type,            '$r->type');      # type
     is    ($r->charset, '',               '$r->charset');   # charset
     ok    (! defined $r->size,            '$r->size');      # size
@@ -112,8 +112,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    ($r->update,                    '$r->update');
+    #   _update
+    ok    ($r->_update,                   '$r->_update');
 
     #   redirect
     ok    (my @red = $r->redirect,        '$r->redirect');
@@ -131,8 +131,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    ($r->update,                    '$r->update');
+    #   _update
+    ok    ($r->_update,                   '$r->_update');
 
     #   redirect
     ok    (my @red = $r->redirect,        '$r->redirect');
@@ -154,8 +154,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    ($r->update,                    '$r->update');
+    #   _update
+    ok    ($r->_update,                   '$r->_update');
 
     #   redirect
     ok    (my @red = $r->redirect,        '$r->redirect');
@@ -173,8 +173,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    ($r->update,                    '$r->update');
+    #   _update
+    ok    ($r->_update,                   '$r->_update');
 
     #   redirect
     ok    (my @red = $r->redirect,        '$r->redirect');
@@ -192,8 +192,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    ($r->update,                    '$r->update');
+    #   _update
+    ok    ($r->_update,                   '$r->_update');
 
     #   redirect
     ok    (my @red = $r->redirect,        '$r->redirect');
@@ -211,8 +211,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    ($r->update,                    '$r->update');
+    #   _update
+    ok    ($r->_update,                   '$r->_update');
 
     #   redirect
     ok    (my @red = $r->redirect,        '$r->redirect');
@@ -230,8 +230,8 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    (! $r->update,                   '$r->update');
+    #   _update
+    ok    (! $r->_update,                  '$r->_update');
 }
 
 rmtree("$ENV{XIUMAI_HOME}/data/path");
@@ -247,8 +247,8 @@ rmtree("$ENV{XIUMAI_HOME}/data/path");
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    (! $r->update,                   '$r->update');
+    #   _update
+    ok    (! $r->_update,                  '$r->_update');
 }
 {
     my $c = HTTP::Request::AsCGI->new(
@@ -261,8 +261,8 @@ rmtree("$ENV{XIUMAI_HOME}/data/path");
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
 
-    #   update
-    ok    (! $r->update,                   '$r->update');
+    #   _update
+    ok    (! $r->_update,                  '$r->_update');
 }
 
 rmtree($ENV{XIUMAI_HOME});

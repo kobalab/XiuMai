@@ -31,7 +31,7 @@ sub new {
 
 sub file { @{$_[0]->{file}} }
 
-sub open {
+sub _open {
     my $self = shift;
 
     my @file;
@@ -44,22 +44,6 @@ sub open {
     $self->{file} = \@file;
 
     return $self;
-}
-
-sub update {
-    my $self = shift;
-
-    $self->redirect(303, './?cmd=edit');
-
-    if (defined $self->req->param('filename')) {
-        return $self->_mkfile($self->req->param('filename'));
-    }
-    elsif (defined $self->req->param('dirname')) {
-        return $self->_mkdir($self->req->param('dirname'));
-    }
-    else {
-        return $self->_rmdir;
-    }
 }
 
 sub _convert {
@@ -110,6 +94,22 @@ sub _edit {
     undef $self->{mtime};
 
     return $self;
+}
+
+sub _update {
+    my $self = shift;
+
+    $self->redirect(303, './?cmd=edit');
+
+    if (defined $self->req->param('filename')) {
+        return $self->_mkfile($self->req->param('filename'));
+    }
+    elsif (defined $self->req->param('dirname')) {
+        return $self->_mkdir($self->req->param('dirname'));
+    }
+    else {
+        return $self->_rmdir;
+    }
 }
 
 sub _mkfile {
