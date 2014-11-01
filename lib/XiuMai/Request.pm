@@ -6,7 +6,7 @@ use XiuMai::Auth;
 use XiuMai::Util qw(url_encode);
 use CGI;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 sub new {
     my $class = shift;

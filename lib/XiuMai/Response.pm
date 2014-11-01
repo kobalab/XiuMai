@@ -7,7 +7,7 @@ use XiuMai::HTML;
 use XiuMai::Auth;
 use XiuMai::Util qw(cdata url_decode canonpath rfc1123_date);
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 our %STATUS_LINE = (
 

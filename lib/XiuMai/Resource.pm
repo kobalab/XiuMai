@@ -9,7 +9,7 @@ use XiuMai::Util::MimeType;
 use XiuMai::Util qw(cdata canonpath);
 use IO::File;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 sub new {
     my $class = shift;

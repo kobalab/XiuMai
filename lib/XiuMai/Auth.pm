@@ -7,7 +7,7 @@ use XiuMai::Util qw(randstr);
 use IO::File;
 use IO::Dir;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 our $EXPDATE = 14;
 

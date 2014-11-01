@@ -2,6 +2,10 @@ Revision history for Perl extension XiuMai
 
 {{$NEXT}}
 
+0.05 2014-11-01T04:13:54Z
+
+    - add user authentication
+
 0.04 2014-10-26T08:03:24Z
 
     - enable mkdir, rmdir and upload file

@@ -7,7 +7,7 @@ use XiuMai::Util qw(cdata url_encode date_str size_str);
 
 use base 'XiuMai::HTML::Resource';
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 sub file_list {
     my $self = shift;
