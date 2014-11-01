@@ -11,6 +11,12 @@ our $VERSION = "0.04";
 
 our $EXPDATE = 14;
 
+sub _cookie_dir {
+    my $cookie_dir = XiuMai::HOME().'/var/cookie';
+    $cookie_dir =~ /^(\/.*)$/ and $cookie_dir = $1;
+    return $cookie_dir;
+}
+
 sub _login {
     my ($login_name, $passwd) = @_;
 
@@ -28,7 +34,7 @@ sub _login {
 sub _make_auth_cookie {
     my ($login_name) = @_;
 
-    my $cookie_dir = XiuMai::HOME().'/var/cookie';
+    my $cookie_dir = _cookie_dir;
     my $dh = new IO::Dir($cookie_dir)       or die "$cookie_dir: $!\n";
     while (my $cookie = $dh->read) {
         next if ($cookie =~ /^\./);
@@ -54,12 +60,12 @@ sub _make_auth_cookie {
 
 sub _delete_auth_cookie {
     my ($cookie) = @_;
-    $cookie =~ /^(.*)$/ and $cookie = $1;
-    unlink(XiuMai::HOME()."/var/cookie/$cookie");
+    $cookie =~ /^(\w+)$/ and $cookie = $1 or return;
+    unlink(_cookie_dir."/$cookie");
 }
 
 sub _cleanup_auth_cookie {
-    my $cookie_dir = XiuMai::HOME().'/var/cookie';
+    my $cookie_dir = _cookie_dir;
     my $dh = new IO::Dir($cookie_dir)   or die "$cookie_dir: $!\n";
     while (my $cookie = $dh->read) {
         next if ($cookie =~ /^\./);
@@ -80,8 +86,8 @@ sub login {
 sub get_login_name {
     my ($cookie) = @_   or return;
 
-    $cookie =~ /^(.*)$/ and $cookie = $1;
-    my $cookie_file = XiuMai::HOME()."/var/cookie/$cookie";
+    $cookie =~ /^(\w+)$/ and $cookie = $1 or return;
+    my $cookie_file = _cookie_dir."/$cookie";
     my $fh = new IO::File($cookie_file)  or return;
     my $login_name = <$fh>;
     $fh->close;
