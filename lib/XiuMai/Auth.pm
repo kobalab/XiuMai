@@ -92,8 +92,6 @@ sub get_login_name {
     my $login_name = <$fh>;
     $fh->close;
 
-    $login_name =~ /^(.*)$/ and $login_name = $1;
-
     my $now = time;
     utime($now, $now, $cookie_file)     or die "$cookie_file: $!\n";
 
