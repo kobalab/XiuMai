@@ -45,7 +45,8 @@ sub path_info {
 sub upload_form {
     my $self = shift;
 
-    my $url    = cdata($self->_r->req->url);
+    my $url        = cdata($self->_r->req->url);
+    my $session_id = cdata($self->_r->req->session_id);
     my $label  = cdata($self->msg('resource.upload_form.label'));
     my $submit = cdata($self->msg('resource.upload_form.submit'));
 
@@ -53,6 +54,7 @@ sub upload_form {
 <form class="x-upload_form" method="post" action="$url" enctype="multipart/form-data">
 <fieldset>
     <legend>$label</legend>
+    <input name="session_id" value="$session_id" type="hidden" />
     <input name="file" type="file" />
     <input type="submit" value="$submit">
 </fieldset>

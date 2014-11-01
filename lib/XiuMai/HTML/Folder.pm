@@ -55,7 +55,8 @@ sub file_list {
 sub mkfile_form {
     my $self = shift;
 
-    my $url      = cdata($self->_r->req->url);
+    my $url        = cdata($self->_r->req->url);
+    my $session_id = cdata($self->_r->req->session_id);
     my $label    = cdata($self->msg('folder.mkfile_form.label'));
     my $filename = cdata($self->msg('folder.mkfile_form.filename'));
     my $submit   = cdata($self->msg('folder.mkfile_form.submit'));
@@ -64,6 +65,7 @@ sub mkfile_form {
 <form class="x-mkfile_form" method="post" action="$url">
 <fieldset>
     <legend>$label</legend>
+    <input name="session_id" value="$session_id" type="hidden" />
     $filename
     <input name="filename" />
     <input type="submit" value="$submit" />
@@ -75,7 +77,8 @@ __END_HTML__
 sub mkdir_form {
     my $self = shift;
 
-    my $url     = cdata($self->_r->req->url);
+    my $url        = cdata($self->_r->req->url);
+    my $session_id = cdata($self->_r->req->session_id);
     my $label   = cdata($self->msg('folder.mkdir_form.label'));
     my $dirname = cdata($self->msg('folder.mkdir_form.dirname'));
     my $submit  = cdata($self->msg('folder.mkdir_form.submit'));
@@ -84,6 +87,7 @@ sub mkdir_form {
 <form class="x-mkdir_form" method="post" action="$url">
 <fieldset>
     <legend>$label</legend>
+    <input name="session_id" value="$session_id" type="hidden" />
     $dirname
     <input name="dirname" />
     <input type="submit" value="$submit" />
@@ -95,7 +99,8 @@ __END_HTML__
 sub rmdir_form {
     my $self = shift;
 
-    my $url     = cdata($self->_r->req->url);
+    my $url        = cdata($self->_r->req->url);
+    my $session_id = cdata($self->_r->req->session_id);
     my $label   = cdata($self->msg('folder.rmdir_form.label'));
     my $submit  = cdata($self->msg('folder.rmdir_form.submit'));
 
@@ -103,6 +108,7 @@ sub rmdir_form {
 <form class="x-rmdir_form" method="post" action="$url">
 <fieldset>
     <legend>$label</legend>
+    <input name="session_id" value="$session_id" type="hidden" />
     <input type="submit" value="$submit" />
 </fieldset>
 </form>

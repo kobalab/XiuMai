@@ -83,4 +83,9 @@ sub login_name {
         = XiuMai::Auth::get_login_name($self->{CGI}->cookie('XIUMAI_AUTH'));
 }
 
+sub session_id {
+    my $self = shift;
+    return $self->{CGI}->cookie('XIUMAI_AUTH');
+}
+
 1;
