@@ -6,6 +6,7 @@ use warnings;
 use XiuMai::Request;
 use XiuMai::Response;
 use XiuMai::Resource;
+use XiuMai::SetUp;
 
 our $VERSION = "0.05";
 
@@ -29,6 +30,7 @@ sub _res {   $_[0]->{Response}  }
 sub handler {
     my $self = new XiuMai;
     eval {
+        XiuMai::SetUp::setup();
         $self->_do_get      if ($self->_req->method eq 'HEAD');
         $self->_do_get      if ($self->_req->method eq 'GET');
         $self->_do_post     if ($self->_req->method eq 'POST');
