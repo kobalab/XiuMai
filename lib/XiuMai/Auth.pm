@@ -6,10 +6,19 @@ use XiuMai;
 use XiuMai::Util qw(randstr);
 use IO::File;
 use IO::Dir;
+use Digest::SHA1 qw(sha1_hex);
 
 our $VERSION = "0.05";
 
 our $EXPDATE = 14;
+
+sub _crypt {
+    my ($passwd, $salt) = @_;
+    for (my $i = 1; $i < 10_000; $i++) {
+        $passwd = sha1_hex("$salt:$passwd");
+    }
+    return $passwd;
+}
 
 sub _passwd_file {
     my $passwd_file = XiuMai::HOME().'/etc/passwd';
@@ -34,7 +43,7 @@ sub signup {
     my ($login_name, $passwd) = @_;
 
     my $crypt = defined $passwd && length $passwd
-                    ? crypt($passwd, randstr(2)) : '*';
+                    ? _crypt($passwd, $login_name) : '*';
 
     my $passwd_file = _passwd_file;
     my $fh = new IO::File($passwd_file, 'r+')   or die "$passwd_file: $!\n";
@@ -73,7 +82,7 @@ sub _login {
         chomp;
         my ($login, $crypt) = split(/:/);
         next if ($login ne $login_name);
-        return crypt($passwd, $crypt) eq $crypt;
+        return _crypt($passwd, $login_name) eq $crypt;
     }
     return;
 }
