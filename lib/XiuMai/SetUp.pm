@@ -32,14 +32,14 @@ sub _set_version {
 sub _setup_home {
     my ($dir) = @_;
     $dir =~ m|^(.*)$| and $dir = $1;
-    mkpath(["$dir/etc", "$dir/var/cookie", "$dir/var/signup"]);
-    new IO::File(">>$dir/etc/passwd")   or die "$!\n";
+    mkpath(["$dir/etc", "$dir/var/cookie", "$dir/var/signup"], 0, 0700);
+    new IO::File("$dir/etc/passwd", '>>', 0600)     or die "$!\n";
 }
 
 sub _setup_data {
     my ($dir) = @_;
     $dir =~ m|^(.*)$| and $dir = $1;
-    mkpath("$dir/data");
+    mkpath("$dir/data", 0, 0700);
 }
 
 sub setup {
