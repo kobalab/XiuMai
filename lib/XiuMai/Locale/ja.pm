@@ -16,6 +16,17 @@ toolbar.user_menu.login:ログイン
 toolbar.user_menu.logout:ログアウト
 toolbar.resource_menu.edit:編集
 # -----------------------------------------------------------------------------
+signup_form.title:ユーザ登録
+signup_form.login_name:ログイン名(英数字)
+signup_form.passwd:パスワード
+signup_form.email:メールアドレス
+signup_form.submit:ユーザ登録
+#
+signup.error.no_login_name:ログイン名が指定されていません。
+signup.error.bad_login_name:{$1}はログイン名に使用できません。
+signup.error.no_passwd:パスワードが指定されていません。
+signup.error.already_taken:ログイン名{$1}はすでに使用されています。
+# -----------------------------------------------------------------------------
 login_form.title:ログイン
 login_form.login_name:ログイン名
 login_form.passwd:パスワード

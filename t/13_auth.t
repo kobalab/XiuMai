@@ -10,9 +10,6 @@ $ENV{XIUMAI_HOME} = "$ENV{PWD}/t/.xiumai";
 mkpath("$ENV{XIUMAI_HOME}/etc");
 my $passwd_file = "$ENV{XIUMAI_HOME}/etc/passwd";
 my $fh = new IO::File(">$passwd_file");
-while (<DATA>) {
-    print $fh $_;
-}
 $fh->close;
 mkpath("$ENV{XIUMAI_HOME}/var/cookie");
 
@@ -29,6 +26,17 @@ is($XiuMai::Auth::VERSION, $XiuMai::VERSION, '$VERSION');
 #
 #   Functions
 #
+
+#   signup
+ok(XiuMai::Auth::is_admin,                  'is_admin');
+ok(XiuMai::Auth::signup('john','lennon'),   'signup: 1st user');
+ok(XiuMai::Auth::signup('paul','mccartney'),'signup: 2nd user');
+ok(XiuMai::Auth::signup('george',''),       'signup: no passwd');
+ok(XiuMai::Auth::signup('ringo'),           'signup: no passwd2');
+ok(! XiuMai::Auth::signup('paul','simon'),  'signup: already exists');
+ok(! XiuMai::Auth::is_admin,                'not is_admin');
+ok(XiuMai::Auth::is_admin('john'),          'john is_admin');
+ok(! XiuMai::Auth::is_admin('paul'),        'paul not is_admin');
 
 #   _login
 
@@ -92,9 +100,3 @@ ok(! XiuMai::Auth::get_login_name($cookie), 'logout: success');
 rmtree($ENV{XIUMAI_HOME});
 
 done_testing;
-
-__DATA__
-john:.dMF5T11Lw1GU:
-paul:wSJiPN54jRGGM:
-george:DRoLS/QLD6b/g:
-ringo:ZmyzUAHEwYGPo:

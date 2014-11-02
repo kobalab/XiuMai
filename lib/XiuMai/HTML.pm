@@ -217,4 +217,30 @@ sub login_form {
 __END_HTML__
 }
 
+sub signup_form {
+    my $self = shift;
+
+    my $url        = cdata($self->{Request}->url);
+    my $login_name = cdata($self->msg('signup_form.login_name'));
+    my $passwd     = cdata($self->msg('signup_form.passwd'));
+    my $passwd2    = cdata($self->msg('signup_form.passwd2'));
+    my $email      = cdata($self->msg('signup_form.email'));
+    my $submit     = cdata($self->msg('signup_form.submit'));
+
+    return <<"__END_HTML__";
+<form class="x-signup_form" method="post" action="$url">
+<div>
+    <input name="cmd" value="signup" type="hidden" />
+    <dl>
+    <dt>$login_name</dt>
+    <dd><input name="login_name" /></dd>
+    <dt>$passwd</dt>
+    <dd><input name="passwd" type="password" /></dd>
+    </dl>
+    <input type="submit" value="$submit" />
+</div>
+</form>
+__END_HTML__
+}
+
 1;

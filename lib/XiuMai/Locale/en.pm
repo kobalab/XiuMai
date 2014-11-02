@@ -20,6 +20,17 @@ toolbar.user_menu.login:Login
 toolbar.user_menu.logout:Logout
 toolbar.resource_menu.edit:Edit
 # -----------------------------------------------------------------------------
+signup_form.title:SignUp
+signup_form.login_name:Login Name (only alphanumeric characters)
+signup_form.passwd:Password
+signup_form.email:Email Address
+signup_form.submit:SIGN UP
+#
+signup.error.no_login_name:Login name is not set.
+signup.error.bad_login_name:{$1} is bad login name.
+signup.error.no_passwd:Password is not set.
+signup.error.already_taken:Login name {$1} is already taken.
+# -----------------------------------------------------------------------------
 login_form.title:Login
 login_form.login_name:Login Name
 login_form.passwd:Password

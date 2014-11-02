@@ -11,6 +11,53 @@ our $VERSION = "0.05";
 
 our $EXPDATE = 14;
 
+sub _passwd_file {
+    my $passwd_file = XiuMai::HOME().'/etc/passwd';
+    $passwd_file =~ /^(\/.*)$/ and $passwd_file = $1;
+    return $passwd_file;
+}
+
+sub is_admin {
+    my ($login_name) = @_;
+
+    return 1    if (! -s _passwd_file);
+    return      if (! $login_name);
+
+    my $passwd_file = _passwd_file;
+    my $fh = new IO::File($passwd_file)     or die "$passwd_file: $!\n";
+    my ($login) = split(/:/, <$fh>);
+    $fh->close;
+    return $login_name eq $login;
+}
+
+sub signup {
+    my ($login_name, $passwd) = @_;
+
+    my $crypt = defined $passwd && length $passwd
+                    ? crypt($passwd, randstr(2)) : '*';
+
+    my $passwd_file = _passwd_file;
+    my $fh = new IO::File($passwd_file, 'r+')   or die "$passwd_file: $!\n";
+    flock($fh, 2)                               or die "$passwd_file: $!\n";
+
+    my @passwd;
+    while (<$fh>) {
+        chomp;
+        push(@passwd, $_);
+        my ($login) = split(/:/);
+        return if (lc($login) eq lc($login_name));
+    }
+    push(@passwd, join(':', $login_name, $crypt, ''));
+
+    truncate($fh, 0)                            or die "$passwd_file: $!\n";
+    seek($fh, 0, 0)                             or die "$passwd_file: $!\n";
+    for (@passwd) {
+        print $fh $_, "\n";
+    }
+
+    $fh->close;
+}
+
 sub _cookie_dir {
     my $cookie_dir = XiuMai::HOME().'/var/cookie';
     $cookie_dir =~ /^(\/.*)$/ and $cookie_dir = $1;
@@ -20,7 +67,7 @@ sub _cookie_dir {
 sub _login {
     my ($login_name, $passwd) = @_;
 
-    my $passwd_file = XiuMai::HOME().'/etc/passwd';
+    my $passwd_file = _passwd_file;
     my $fh = new IO::File($passwd_file)     or die "$passwd_file: $!\n";
     while (<$fh>) {
         chomp;

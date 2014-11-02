@@ -30,7 +30,6 @@ sub _res {   $_[0]->{Response}  }
 sub handler {
     my $self = new XiuMai;
     eval {
-        XiuMai::SetUp::setup();
         $self->_do_get      if ($self->_req->method eq 'HEAD');
         $self->_do_get      if ($self->_req->method eq 'GET');
         $self->_do_post     if ($self->_req->method eq 'POST');
@@ -42,7 +41,10 @@ sub handler {
 sub _do_get {
     my $self = shift;
 
+    XiuMai::SetUp::setup()  or $self->_res->print_signup_form;
+
     if (my $cmd = $self->_req->param('cmd')) {
+        $cmd eq 'signup'    and $self->_res->print_signup_form;
         $cmd eq 'login'     and $self->_res->print_login_form;
         $cmd eq 'logout'    and $self->_res->logout;
     }
@@ -59,6 +61,7 @@ sub _do_post {
     my $self = shift;
 
     if (my $cmd = $self->_req->param('cmd')) {
+        $cmd eq 'signup'    and $self->_res->signup;
         $cmd eq 'login'     and $self->_res->login;
     }
 

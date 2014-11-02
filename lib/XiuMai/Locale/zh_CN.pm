@@ -15,6 +15,17 @@ toolbar.user_menu.login:登录
 toolbar.user_menu.logout:注销
 toolbar.resource_menu.edit:编辑
 # -----------------------------------------------------------------------------
+signup_form.title:注册
+signup_form.login_name:账号(字母数字)
+signup_form.passwd:密码
+signup_form.email:电子邮件
+signup_form.submit:注册
+#
+signup.error.no_login_name:需要输入账号。
+signup.error.bad_login_name:账号 {$1} 不允许。
+signup.error.no_passwd:需要输入密码。
+signup.error.already_taken:账号 {$1} 是已经使用的。
+# -----------------------------------------------------------------------------
 login_form.title:登录
 login_form.login_name:账号
 login_form.passwd:密码

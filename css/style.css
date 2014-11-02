@@ -84,16 +84,19 @@ fieldset {
     text-decoration: none;
 }
 
-form.x-login_form {
+form.x-login_form,
+form.x-signup_form {
     width: 320px;
     margin: 40px auto;
     border: solid 1px;
     border-radius: 10px;
 }
-form.x-login_form > div {
+form.x-login_form > div,
+form.x-signup_form > div {
     margin: 16px 24px;
 }
-form.x-login_form dd {
+form.x-login_form dd,
+form.x-signup_form dd {
     margin-left: 0px;
 }
 
@@ -137,7 +140,8 @@ table.x-file_list th.x-type  { width: 30%; }
     ul, ol { padding-left: 1.5em; }
     dd { margin-left: 1.5em; }
     textarea { max-height: 12em; }
-    form.x-login_form {
+    form.x-login_form,
+    form.x-signup_form {
         width: auto;
         margin: 1em auto;
         border: none;
