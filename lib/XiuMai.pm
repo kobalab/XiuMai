@@ -60,15 +60,15 @@ sub _do_get {
 sub _do_post {
     my $self = shift;
 
+    my $session_id = $self->_req->param('session_id');
+    my $cookie     = $self->_req->session_id;
+    if (defined $cookie && $session_id ne $cookie) {
+        $self->_res->print_error(400);
+    }
+
     if (my $cmd = $self->_req->param('cmd')) {
         $cmd eq 'signup'    and $self->_res->signup;
         $cmd eq 'login'     and $self->_res->login;
-    }
-
-    my $session_id = $self->_req->param('session_id');
-    my $cookie     = $self->_req->session_id;
-    if (! defined $session_id || ! defined $cookie || $session_id ne $cookie) {
-        $self->_res->print_error(400);
     }
 
     my $r = new XiuMai::Resource($self->_req)
