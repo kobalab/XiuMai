@@ -5,8 +5,6 @@ use warnings;
 use XiuMai;
 use XiuMai::HTML;
 use XiuMai::Auth;
-use XiuMai::Request;
-use XiuMai::Locale;
 use XiuMai::Util qw(cdata url_decode canonpath rfc1123_date);
 
 our $VERSION = "0.05";
@@ -219,7 +217,7 @@ sub print_signup_form {
         = $html->title($title)
                ->as_string(
                      qq(<h1><a href="$url">).cdata($title).qq(</a></h1>\n),
-                     $html->signup_form,
+                     $html->signup_form(@_),
                  );
 
     print $self->_header;
@@ -236,21 +234,21 @@ sub signup {
     my $login_name = $self->_req->param('login_name');
     my $passwd     = $self->_req->param('passwd');
 
-    my $msg = XiuMai::Locale::get($self->_req->accept_language);
-
+    my @error;
     if (! defined $login_name || ! length $login_name) {
-        $self->print_error(400, $msg->get('signup.error.no_login_name'));
+        push(@error, ['no_login_name']);
     }
-    if ($login_name !~ /^[a-zA-Z][\w\-\.]*$/) {
-        $self->print_error(
-            400, $msg->get('signup.error.bad_login_name', $login_name));
+    elsif ($login_name !~ /^[a-zA-Z][\w\-\.]*$/) {
+        push(@error, ['bad_login_name', $login_name]);
     }
     if (! defined $passwd || ! length $passwd) {
-        $self->print_error(400, $msg->get('signup.error.no_passwd'));
+        push(@error, ['no_passwd']);
     }
+
     XiuMai::Auth::signup($login_name, $passwd)
-        or $self->print_error(
-                400, $msg->get('signup.error.already_taken', $login_name));
+        or push(@error, ['already_taken', $login_name])     if (! @error);
+
+    $self->print_signup_form(@error)                        if (@error);
 
     if ($self->_req->login_name) {
         $self->print_redirect(303, $self->_req->url);

@@ -219,6 +219,7 @@ __END_HTML__
 
 sub signup_form {
     my $self = shift;
+    my @error = @_;
 
     my $url        = cdata($self->{Request}->url);
     my $session_id = cdata($self->{Request}->session_id);
@@ -226,14 +227,28 @@ sub signup_form {
     my $passwd     = cdata($self->msg('signup_form.passwd'));
     my $submit     = cdata($self->msg('signup_form.submit'));
 
+    my $param_login_name = cdata($self->{Request}->param('login_name'));
+
+    my $error = '';
+    if (@error) {
+        $error = qq(<div class="x-error">\n)
+               . join(qq(<br />\n),
+                     map {
+                         my ($msg, @param) = @$_;
+                         cdata($self->msg("signup.error.$msg", @param));
+                     } @error
+                 )
+               . qq(\n</div>\n);
+    }
+
     return <<"__END_HTML__";
 <form class="x-signup_form" method="post" action="$url">
-<div>
+$error<div>
     <input name="cmd" value="signup" type="hidden" />
     <input name="session_id" value="$session_id" type="hidden" />
     <dl>
     <dt>$login_name</dt>
-    <dd><input name="login_name" /></dd>
+    <dd><input name="login_name" value="$param_login_name" /></dd>
     <dt>$passwd</dt>
     <dd><input name="passwd" type="password" /></dd>
     </dl>

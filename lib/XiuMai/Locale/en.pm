@@ -27,9 +27,9 @@ signup_form.email:Email Address
 signup_form.submit:SIGN UP
 #
 signup.error.no_login_name:Login name is not set.
-signup.error.bad_login_name:{$1} is bad login name.
+signup.error.bad_login_name:"{$1}" is bad login name.
 signup.error.no_passwd:Password is not set.
-signup.error.already_taken:Login name {$1} is already taken.
+signup.error.already_taken:Login name "{$1}" is already taken.
 # -----------------------------------------------------------------------------
 login_form.title:Login
 login_form.login_name:Login Name

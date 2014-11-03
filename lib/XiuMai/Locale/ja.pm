@@ -23,9 +23,9 @@ signup_form.email:メールアドレス
 signup_form.submit:ユーザ登録
 #
 signup.error.no_login_name:ログイン名が指定されていません。
-signup.error.bad_login_name:{$1}はログイン名に使用できません。
+signup.error.bad_login_name:“{$1}” はログイン名に使用できません。
 signup.error.no_passwd:パスワードが指定されていません。
-signup.error.already_taken:ログイン名{$1}はすでに使用されています。
+signup.error.already_taken:ログイン名 “{$1}” はすでに使用されています。
 # -----------------------------------------------------------------------------
 login_form.title:ログイン
 login_form.login_name:ログイン名

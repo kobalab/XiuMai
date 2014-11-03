@@ -22,9 +22,9 @@ signup_form.email:电子邮件
 signup_form.submit:注册
 #
 signup.error.no_login_name:需要输入账号。
-signup.error.bad_login_name:账号 {$1} 不允许。
+signup.error.bad_login_name:账号 “{$1}” 不允许。
 signup.error.no_passwd:需要输入密码。
-signup.error.already_taken:账号 {$1} 是已经使用的。
+signup.error.already_taken:账号 “{$1}” 是已经使用的。
 # -----------------------------------------------------------------------------
 login_form.title:登录
 login_form.login_name:账号
