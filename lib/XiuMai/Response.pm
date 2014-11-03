@@ -182,7 +182,12 @@ sub login {
 
 sub logout {
     my $self = shift;
-    XiuMai::Auth::logout($self->{CGI}->cookie('XIUMAI_AUTH'));
+    if (defined $self->_req->session_id
+        && defined $self->_req->param('session_id')
+        && $self->_req->session_id eq $self->_req->param('session_id'))
+    {
+        XiuMai::Auth::logout($self->{CGI}->cookie('XIUMAI_AUTH'));
+    }
     $self->print_redirect(303, $self->_req->url);
 }
 

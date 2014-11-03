@@ -164,18 +164,18 @@ sub _toolbar {
 sub _user_menu {
     my $self = shift;
 
-    my ($cmd, $login_or_logout);
+    my ($query, $login_or_logout);
     if (defined $self->{Request}->login_name) {
-        $cmd = 'logout';
+        $query = cdata('?cmd=logout&session_id='.$self->{Request}->session_id);
         $login_or_logout = cdata($self->msg('toolbar.user_menu.logout'));
     }
     else {
-        $cmd = 'login';
+        $query = '?cmd=login';
         $login_or_logout = cdata($self->msg('toolbar.user_menu.login'));
     }
 
     return qq(\t<ul class="x-user_menu">\n)
-         . qq(\t\t<li><a href="?cmd=$cmd">$login_or_logout</a></li>\n)
+         . qq(\t\t<li><a href="$query">$login_or_logout</a></li>\n)
          . qq(\t</ul>\n);
 }
 
