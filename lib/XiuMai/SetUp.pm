@@ -7,7 +7,7 @@ use XiuMai;
 use IO::File;
 use File::Path;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 sub _get_version {
     my ($dir) = @_;

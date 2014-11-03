@@ -8,7 +8,7 @@ use XiuMai::Response;
 use XiuMai::Resource;
 use XiuMai::SetUp;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 our $PRODUCT_NAME = "XiuMai/$VERSION";
 our $PRODUCT_URL  = 'http://kobalab.net/xiumai/';

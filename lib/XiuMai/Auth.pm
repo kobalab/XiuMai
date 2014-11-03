@@ -8,7 +8,7 @@ use IO::File;
 use IO::Dir;
 use Digest::SHA1 qw(sha1_hex);
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 our $EXPDATE = 14;
 

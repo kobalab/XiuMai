@@ -2,6 +2,11 @@ Revision history for Perl extension XiuMai
 
 {{$NEXT}}
 
+0.06 2014-11-03T13:48:10Z
+
+    - enable siging up
+    - add auto initialization of XIUMAI_HOME and XIUMAI_DATA
+
 0.05 2014-11-01T04:13:54Z
 
     - add user authentication

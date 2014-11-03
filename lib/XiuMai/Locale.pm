@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use XiuMai::Util::Msg;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 my %locale = ( en => undef, ja => undef, zh_CN => undef );
 

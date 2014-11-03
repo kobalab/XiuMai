@@ -7,7 +7,7 @@ use XiuMai::Util qw(url_encode);
 use CGI;
 use Digest::SHA1 qw(sha1_hex);
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 sub new {
     my $class = shift;
