@@ -5,6 +5,7 @@ use warnings;
 use XiuMai::Auth;
 use XiuMai::Util qw(url_encode);
 use CGI;
+use Digest::SHA1 qw(sha1_hex);
 
 our $VERSION = "0.05";
 
@@ -85,7 +86,8 @@ sub login_name {
 
 sub session_id {
     my $self = shift;
-    return $self->{CGI}->cookie('XIUMAI_AUTH');
+    return $self->{CGI}->cookie('XIUMAI_AUTH')
+            && sha1_hex($self->{CGI}->cookie('XIUMAI_AUTH'));
 }
 
 1;

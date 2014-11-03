@@ -37,6 +37,7 @@
       "runtime" : {
          "requires" : {
             "CGI" : "2.57",
+            "Digest::SHA1" : "0",
             "Exporter" : "0",
             "IO::Dir" : "0",
             "IO::File" : "0",

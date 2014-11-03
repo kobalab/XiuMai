@@ -4,6 +4,7 @@ requires 'CGI', '2.57';
 requires 'Exporter';
 requires 'IO::File';
 requires 'IO::Dir';
+requires 'Digest::SHA1';
 
 on 'configure' => sub {
     requires 'Module::Build::Tiny', '0.039';
