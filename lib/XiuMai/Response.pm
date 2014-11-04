@@ -26,8 +26,6 @@ our %STATUS_LINE = (
     500 => 'Internal Server Error',
 );
 
-sub _exit { $XiuMai::NOT_EXIT or exit @_ }
-
 sub _header {
     my $self = shift;
     my %param = @_;
@@ -59,7 +57,7 @@ sub print {
 
     print $self->_header(%param);
     $r->print               if ($self->_req->method eq 'GET');
-    _exit;
+    return;
 }
 
 sub print_redirect {
@@ -86,7 +84,7 @@ sub print_redirect {
             -status => "$status $status_line",
             -uri    => $uri
     );
-    _exit;
+    return;
 }
 
 sub print_error {
@@ -128,7 +126,7 @@ sub print_error {
                      -content_length => length($content),
                  );
     print $content              if ($self->_req->method ne 'HEAD');
-    _exit;
+    return;
 }
 
 sub print_login_form {
@@ -148,7 +146,7 @@ sub print_login_form {
 
     print $self->_header;
     print $content              if ($self->_req->method ne 'HEAD');
-    _exit;
+    return;
 }
 
 sub login {
@@ -157,7 +155,7 @@ sub login {
     my $login_name = $self->_req->param('login_name');
     my $passwd     = $self->_req->param('passwd');
     my $cookie = XiuMai::Auth::login($login_name, $passwd)
-                                                or $self->print_error(401);
+                                        or return $self->print_error(401);
     my $path = $self->_req->base_url;
 
     $self->{auth_cookie}
@@ -202,7 +200,7 @@ sub print_signup_form {
     my $self = shift;
 
     XiuMai::Auth::is_admin($self->_req->login_name)
-        or $self->print_error(403);
+        or return $self->print_error(403);
 
     my $html = new XiuMai::HTML($self->_req);
 
@@ -218,14 +216,14 @@ sub print_signup_form {
 
     print $self->_header;
     print $content              if ($self->_req->method ne 'HEAD');
-    _exit;
+    return;
 }
 
 sub signup {
     my $self = shift;
 
     XiuMai::Auth::is_admin($self->_req->login_name)
-        or $self->print_error(403);
+        or return $self->print_error(403);
 
     my $login_name = $self->_req->param('login_name');
     my $passwd     = $self->_req->param('passwd');
@@ -244,7 +242,7 @@ sub signup {
     XiuMai::Auth::signup($login_name, $passwd)
         or push(@error, ['already_taken', $login_name])     if (! @error);
 
-    $self->print_signup_form(@error)                        if (@error);
+    return $self->print_signup_form(@error)                 if (@error);
 
     if ($self->_req->login_name) {
         $self->print_redirect(303, $self->_req->url);

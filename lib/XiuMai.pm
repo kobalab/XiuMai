@@ -30,12 +30,15 @@ sub _res {   $_[0]->{Response}  }
 sub handler {
     my $self = new XiuMai;
     eval {
-        $self->_do_get      if ($self->_req->method eq 'HEAD');
-        $self->_do_get      if ($self->_req->method eq 'GET');
-        $self->_do_post     if ($self->_req->method eq 'POST');
-        $self->_res->print_error(405);
+        my $method = $self->_req->method;
+        $method eq 'HEAD'   and return $self->_do_get;
+        $method eq 'GET'    and return $self->_do_get;
+        $method eq 'POST'   and return $self->_do_post;
+        return $self->_res->print_error(405);
     };
-    $self->_res->print_error(500, $@)   if ($@ !~ /^ModPerl::Util::exit:/);
+    if ($@ && $@ !~ /^ModPerl::Util::exit:/) {
+        $self->_res->print_error(500, $@);
+    }
 }
 
 sub _do_get {
@@ -44,16 +47,16 @@ sub _do_get {
     XiuMai::SetUp::setup()  or $self->_res->print_signup_form;
 
     if (my $cmd = $self->_req->param('cmd')) {
-        $cmd eq 'signup'    and $self->_res->print_signup_form;
-        $cmd eq 'login'     and $self->_res->print_login_form;
-        $cmd eq 'logout'    and $self->_res->logout;
+        $cmd eq 'signup'    and return $self->_res->print_signup_form;
+        $cmd eq 'login'     and return $self->_res->print_login_form;
+        $cmd eq 'logout'    and return $self->_res->logout;
     }
 
     my $r = new XiuMai::Resource($self->_req)
-                         or $self->_res->print_error(404);
-    $r->redirect        and $self->_res->print_redirect($r->redirect);
-    $r->open             or $self->_res->print_error(403);
-    $r->convert          or $self->_res->print_error(406);
+                     or return $self->_res->print_error(404);
+    $r->redirect    and return $self->_res->print_redirect($r->redirect);
+    $r->open         or return $self->_res->print_error(403);
+    $r->convert      or return $self->_res->print_error(406);
     $self->_res->print($r);
 }
 
@@ -63,18 +66,18 @@ sub _do_post {
     my $session_id = $self->_req->param('session_id');
     my $cookie     = $self->_req->session_id;
     if (defined $cookie && $session_id ne $cookie) {
-        $self->_res->print_error(400);
+        return $self->_res->print_error(400);
     }
 
     if (my $cmd = $self->_req->param('cmd')) {
-        $cmd eq 'signup'    and $self->_res->signup;
-        $cmd eq 'login'     and $self->_res->login;
+        $cmd eq 'signup'    and return $self->_res->signup;
+        $cmd eq 'login'     and return $self->_res->login;
     }
 
     my $r = new XiuMai::Resource($self->_req)
-                         or $self->_res->print_error(404);
-    $r->update           or $self->_res->print_error(403);
-    $r->redirect        and $self->_res->print_redirect($r->redirect);
+                     or return $self->_res->print_error(404);
+    $r->update       or return $self->_res->print_error(403);
+    $r->redirect    and return $self->_res->print_redirect($r->redirect);
     $self->_res->print_error(406);
 }
 
