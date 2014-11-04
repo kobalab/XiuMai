@@ -2,10 +2,12 @@ package XiuMai::Response;
 
 use strict;
 use warnings;
-use XiuMai;
+use XiuMai::Util::Response;
 use XiuMai::HTML;
 use XiuMai::Auth;
 use XiuMai::Util qw(cdata url_decode canonpath rfc1123_date);
+
+use base 'XiuMai::Util::Response';
 
 our $VERSION = "0.06";
 
@@ -24,35 +26,24 @@ our %STATUS_LINE = (
     500 => 'Internal Server Error',
 );
 
-sub new {
-    my $class = shift;
-    my ($req) = @_;
-    return bless {
-        Request => $req,
-        CGI     => $req->{CGI},
-    }, $class;
-}
-
 sub _exit { $XiuMai::NOT_EXIT or exit @_ }
-
-sub _req {  $_[0]->{Request}    }
 
 sub _header {
     my $self = shift;
-    my %param = @_ == 1 ? ( -type => shift @_ ) : @_;
+    my %param = @_;
 
     $param{-cookie} = [ $self->_auth_cookie ];
 
-    $self->{CGI}->header(%param);
+    $self->header(%param);
 }
 
 sub _redirect {
     my $self = shift;
-    my %param = @_ == 1 ? ( -uri => shift @_ ) : @_;
+    my %param = @_;
 
     $param{-cookie} = [ $self->_auth_cookie ];
 
-    $self->{CGI}->redirect(%param);
+    $self->redirect(%param);
 }
 
 sub print {
