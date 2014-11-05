@@ -44,7 +44,7 @@ sub handler {
 sub _do_get {
     my $self = shift;
 
-    XiuMai::SetUp::setup()  or $self->_res->print_signup_form;
+    XiuMai::SetUp::setup()  or return $self->_res->print_signup_form;
 
     if (my $cmd = $self->_req->param('cmd')) {
         $cmd eq 'signup'    and return $self->_res->print_signup_form;
