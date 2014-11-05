@@ -144,7 +144,7 @@ sub print_login_form {
                      $html->login_form,
                  );
 
-    print $self->_header;
+    print $self->_header(-content_length => length($content));
     print $content              if ($self->_req->method ne 'HEAD');
     return;
 }
@@ -214,7 +214,7 @@ sub print_signup_form {
                      $html->signup_form(@_),
                  );
 
-    print $self->_header;
+    print $self->_header(-content_length => length($content));
     print $content              if ($self->_req->method ne 'HEAD');
     return;
 }
