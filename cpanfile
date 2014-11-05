@@ -5,6 +5,7 @@ requires 'Exporter';
 requires 'IO::File';
 requires 'IO::Dir';
 requires 'Digest::SHA1';
+requires 'File::Path';
 
 on 'configure' => sub {
     requires 'Module::Build::Tiny', '0.039';

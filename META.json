@@ -39,6 +39,7 @@
             "CGI" : "2.57",
             "Digest::SHA1" : "0",
             "Exporter" : "0",
+            "File::Path" : "0",
             "IO::Dir" : "0",
             "IO::File" : "0",
             "perl" : "5.008001"
