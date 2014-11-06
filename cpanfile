@@ -13,9 +13,8 @@ on 'configure' => sub {
 
 on 'test' => sub {
     requires 'Test::More', '0.98';
-    requires 'HTTP::Request::Common';
+    requires 'HTTP::Request::Common', '5.814';
     requires 'HTTP::Request::AsCGI';
     requires 'Time::Local';
-    requires 'File::Path';
 };
 
