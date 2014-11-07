@@ -72,8 +72,8 @@ sub _cookie {
 sub _session_id {
     my ($html) = @_;
     my ($session_id)
-        = $html =~ m|<input name="session_id" value="(.*?)" type="hidden" />|
-            || $html =~ m|\bsession_id=(\w*)|;
+        = ($html =~ m|<input name="session_id" value="(.*?)" type="hidden" />|,
+           $html =~ m|\bsession_id=(\w*)|);
     return $session_id;
 }
 
@@ -95,7 +95,9 @@ sub do_test {
 
     cmp_ok($r->header('content-length'), '==', length $r->content,
                                 "$case{name}: check header Content-Length")
-                        if ($case{res}{code} !~ /^3/);
+                        if ($case{res}{code} !~ /^3/
+                            && ! grep { /^content[-_]length$/i }
+                                        keys %{$case{res}{header}});
 
     is($r->header('content-type'),
        $case{res}{type} || 'text/html; charset=utf-8',
