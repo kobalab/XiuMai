@@ -39,7 +39,7 @@ sub login_name {
 
 sub session_id {
     my $self = shift;
-    return $self->{CGI}->cookie('XIUMAI_AUTH')
+    return $self->cookie('XIUMAI_AUTH')
             && sha1_hex($self->cookie('XIUMAI_AUTH'));
 }
 
