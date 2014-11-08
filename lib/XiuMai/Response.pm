@@ -159,7 +159,7 @@ sub login {
     my $path = $self->_req->base_url;
 
     $self->{auth_cookie}
-        = $self->{CGI}->cookie(
+        = $self->cookie(
                 -name    => 'XIUMAI_AUTH',
                 -value   => $cookie,
                 -path    => $path,
@@ -175,7 +175,7 @@ sub logout {
         && defined $self->_req->param('session_id')
         && $self->_req->session_id eq $self->_req->param('session_id'))
     {
-        XiuMai::Auth::logout($self->{CGI}->cookie('XIUMAI_AUTH'));
+        XiuMai::Auth::logout($self->_req->cookie('XIUMAI_AUTH'));
     }
     $self->print_redirect(303, $self->_req->url);
 }
@@ -184,11 +184,11 @@ sub _auth_cookie {
     my $self = shift;
     return $self->{auth_cookie}     if (defined $self->{auth_cookie});
 
-    my $cookie  = $self->{CGI}->cookie('XIUMAI_AUTH')   or return;
+    my $cookie  = $self->_req->cookie('XIUMAI_AUTH')   or return;
     my $path    = $self->_req->base_url;
     my $expdate = defined $self->_req->login_name
                         ? qq(+${XiuMai::Auth::EXPDATE}d) : '-1d';
-    return $self->{CGI}->cookie(
+    return $self->cookie(
                 -name    => 'XIUMAI_AUTH',
                 -value   => $cookie,
                 -path    => $path,

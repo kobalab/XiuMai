@@ -26,4 +26,9 @@ sub redirect {
     $self->{CGI}->redirect(@_);
 }
 
+sub cookie {
+    my $self = shift;
+    $self->{CGI}->cookie(@_);
+}
+
 1;
