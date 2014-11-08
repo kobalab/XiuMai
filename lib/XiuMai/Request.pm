@@ -13,9 +13,7 @@ our $VERSION = "0.06";
 
 sub new {
     my $class = shift;
-    my $cgi = new CGI;
-    $cgi->charset('utf-8');
-    my $self = new XiuMai::Util::Request($cgi);
+    my $self = new XiuMai::Util::Request(new CGI);
     return bless $self, $class;
 }
 

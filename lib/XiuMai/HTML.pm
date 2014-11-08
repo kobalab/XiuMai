@@ -22,7 +22,6 @@ sub new {
         Request     => $req,
     }, $class;
     if ($req) {
-        $self->charset($req->charset);
         if ($req->accept_language) {
             $self->accept_language($req->accept_language);
             $self->lang($self->accept_language);

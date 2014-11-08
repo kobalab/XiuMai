@@ -91,9 +91,5 @@ isa_ok( new XiuMai::Util::Request(CGI->new), 'XiuMai::Util::Request',
 
     is  ($r->host, 'example.com', '$r->host, no HTTP_HOST, port 80');
 }
-{
-    my $r = new XiuMai::Util::Request(CGI->new);
-    is($r->charset, 'ISO-8859-1',  '$r->request eq \'ISO-8859-1\'');
-}
 
 done_testing;

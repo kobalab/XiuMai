@@ -96,9 +96,5 @@ isa_ok( new XiuMai::Request, 'XiuMai::Request', 'new XiuMai::Request');
     ok(eq_array([$r->accept_language], ['ja','en-us','en','zh-cn']),
                                     '$r->accept_language');
 }
-{
-    my $r = new XiuMai::Request;
-    is($r->charset, 'utf-8',    '$r->request eq \'utf-8\'');
-}
 
 done_testing;

@@ -62,9 +62,4 @@ sub cookie {
     return $self->{CGI}->cookie(shift);
 }
 
-sub charset {
-    my $self = shift;
-    return $self->{CGI}->charset
-}
-
 1;

@@ -123,6 +123,8 @@ sub print_error {
 
     print $self->_header(
                      -status         => "$status $status_line",
+                     -type           => 'text/html',
+                     -charset        => $html->charset,
                      -content_length => length($content),
                  );
     print $content              if ($self->_req->method ne 'HEAD');
@@ -144,7 +146,11 @@ sub print_login_form {
                      $html->login_form,
                  );
 
-    print $self->_header(-content_length => length($content));
+    print $self->_header(
+                      -type           => 'text/html',
+                      -charset        => $html->charset,
+                      -content_length => length($content)
+                  );
     print $content              if ($self->_req->method ne 'HEAD');
     return;
 }
@@ -214,7 +220,11 @@ sub print_signup_form {
                      $html->signup_form(@_),
                  );
 
-    print $self->_header(-content_length => length($content));
+    print $self->_header(
+                      -type           => 'text/html',
+                      -charset        => $html->charset,
+                      -content_length => length($content)
+                  );
     print $content              if ($self->_req->method ne 'HEAD');
     return;
 }
