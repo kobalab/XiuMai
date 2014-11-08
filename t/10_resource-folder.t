@@ -49,14 +49,14 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
     ok    (! defined $r->type,            '$r->type');      # type
-    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! $r->charset,                 '$r->charset');   # charset
     ok    (! defined $r->size,            '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
     #   _open
     ok    ($r->_open == $r,               '$r->_open');
     ok    (! defined $r->type,            '$r->type');      # type
-    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! $r->charset,                 '$r->charset');   # charset
     ok    (! defined $r->size,            '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
@@ -92,7 +92,7 @@ is($XiuMai::Resource::Folder::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r, 'XiuMai::Resource::Folder', 'new XiuMai::Resource::Folder');
     ok    (! defined $r->type,            '$r->type');      # type
-    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! $r->charset,                 '$r->charset');   # charset
     ok    (! defined $r->size,            '$r->size');      # size
     ok    (! $r->mtime,                   '$r->mtime');     # mtime
 

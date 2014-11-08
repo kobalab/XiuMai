@@ -41,7 +41,7 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
     my $r = new XiuMai::Resource($req);
     isa_ok($r,          'XiuMai::Resource', 'new XiuMai::Resource');
     is    ($r->type,    'image/png',      '$r->type');      # type
-    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! $r->charset,                 '$r->charset');   # charset
     cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
@@ -53,14 +53,14 @@ is($XiuMai::Resource::VERSION, $XiuMai::VERSION, '$VERSION');
     #   _open
     ok    ($r->_open == $r,               '$r->_open');
     is    ($r->type,    'image/png',      '$r->type');      # type
-    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! $r->charset,                 '$r->charset');   # charset
     cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 
     #   convert
     ok    ($r->convert == $r,             '$r->convert');
     is    ($r->type,    'image/png',      '$r->type');      # type
-    is    ($r->charset, '',               '$r->charset');   # charset
+    ok    (! $r->charset,                 '$r->charset');   # charset
     cmp_ok($r->size,    '==', 1024,       '$r->size');      # size
     cmp_ok($r->mtime,   '==', $mtime,     '$r->mtime');     # mtime
 

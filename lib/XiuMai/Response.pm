@@ -50,7 +50,7 @@ sub print {
 
     my %param;
     $param{-type}           = $r->type  if (defined $r->type);
-    $param{-charset}        = $r->charset;
+    $param{-charset}        = $r->charset   if (defined $r->charset);
     $param{-content_length} = $r->size  if (defined $r->size);
     $param{-last_modified}  = rfc1123_date($r->mtime)
                                         if (defined $r->mtime);

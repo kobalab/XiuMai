@@ -39,7 +39,7 @@ sub new {
         type        => undef,
         size        => undef,
         mtime       => undef,
-        charset     => '',
+        charset     => undef,
         fh          => undef,
         redirect    => [],
     };

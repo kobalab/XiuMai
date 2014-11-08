@@ -4,7 +4,7 @@ use Test::More 0.98;
 sub parse_header {
     my $header = shift;
     $header =~ s/\r//gs;
-    $header =~ s/\n\n$//s    or return;
+    $header =~ s/\n\n$//s;
     $header =~ s/\n\s/ /g;
     my @header = map { s/\s+/ /g; $_ } split("\n", $header, -1);
     return \@header;
@@ -47,37 +47,38 @@ ok($res->_req == $req, '$req->_req == $req');
 #   header
 
 my @header_test = (
-    { param  => undef,
+    { param  => [],
       result => [ "Content-Type: text/html; charset=ISO-8859-1" ]
     },
-    { param  => 'text/plain',
+    { param  => [ -type => 'text/plain' ],
       result => [ "Content-Type: text/plain; charset=ISO-8859-1" ]
     },
-    { param  => { -charset => 'utf-8' },
+    { param  => [ -charset => 'utf-8' ],
       result => [ "Content-Type: text/html; charset=utf-8" ]
     },
-    { param  => { -type => 'text/plain' },
-      result => [ "Content-Type: text/plain; charset=ISO-8859-1" ]
+    { param  => [ -type => 'text/plain', -charset => 'utf-8' ],
+      result => [ "Content-Type: text/plain; charset=utf-8" ]
     },
-    { param  => { -status => '200' },
+    { param  => [ -content_type => 'text/plain; charset=utf-8' ],
+      result => [ "Content-Type: text/plain; charset=utf-8" ]
+    },
+    { param  => [ -status => '200' ],
       result => [ "Status: 200",
                   "Content-Type: text/html; charset=ISO-8859-1" ]
     },
-    { param  => { -status => '200', -content_length => 1024 },
+    { param  => [ -status => '200', -content_length => 1024 ],
       result => [ "Status: 200",
                   "Content-Type: text/html; charset=ISO-8859-1",
-                  "Content-length: 1024" ]
+                  "Content-Length: 1024" ]
     },
 );
 for my $case (@header_test) {
     my $req = new XiuMai::Util::Request(new CGI);
     my $res = new XiuMai::Util::Response($req);
-    my $result = ref $case->{param} eq 'HASH'
-                    ? $res->header(%{$case->{param}})
-                    : $res->header($case->{param});
-    my $param  = ref $case->{param} eq 'HASH'
-                    ? param_as_string(%{$case->{param}})
-                    : param_as_string($case->{param});
+
+    my $result = $res->header(@{$case->{param}});
+    my $param  = param_as_string(@{$case->{param}});
+
     ok(eq_set(parse_header($result), $case->{result}), '$res->header'.$param)
         or diag("==> got\n", $result,
                 "<== expected\n", join("\r\n", @{$case->{result}}));
