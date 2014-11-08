@@ -11,8 +11,6 @@ sub parse_header {
 }
 
 sub param_as_string {
-    @_ == 1 && ! defined $_[0] and return '';
-    @_ == 1 and return "('$_[0]')";
     my %param = @_;
     return '( ' . join(', ', map { "$_ => '$param{$_}'" } keys %param) . ' )';
 }
@@ -71,6 +69,11 @@ my @header_test = (
                   "Content-Type: text/html; charset=ISO-8859-1",
                   "Content-Length: 1024" ]
     },
+    { param  => [ -status => 303, -location => './' ],
+      result => [ "Status: 303",
+                  "Content-Type: text/html; charset=ISO-8859-1",
+                  "Location: ./" ]
+    },
 );
 for my $case (@header_test) {
     my $req = new XiuMai::Util::Request(new CGI);
@@ -80,37 +83,6 @@ for my $case (@header_test) {
     my $param  = param_as_string(@{$case->{param}});
 
     ok(eq_set(parse_header($result), $case->{result}), '$res->header'.$param)
-        or diag("==> got\n", $result,
-                "<== expected\n", join("\r\n", @{$case->{result}}));
-}
-
-#   redirect
-
-my @redirect_test = (
-    { param  => undef,
-      result => [ "Status: 302 Found",
-                  "Location: http://example.com" ]
-    },
-    { param  => '/path',
-      result => [ "Status: 302 Found",
-                  "Location: /path" ]
-    },
-    { param  => { -status => 303, -uri => './' },
-      result => [ "Status: 303",
-                  "Location: ./" ]
-    },
-);
-for my $case (@redirect_test) {
-    local $ENV{HTTP_HOST} = 'example.com';
-    my $req = new XiuMai::Util::Request(new CGI);
-    my $res = new XiuMai::Util::Response($req);
-    my $result = ref $case->{param} eq 'HASH'
-                    ? $res->redirect(%{$case->{param}})
-                    : $res->redirect($case->{param});
-    my $param  = ref $case->{param} eq 'HASH'
-                    ? param_as_string(%{$case->{param}})
-                    : param_as_string($case->{param});
-    ok(eq_set(parse_header($result), $case->{result}), '$res->redirect'.$param)
         or diag("==> got\n", $result,
                 "<== expected\n", join("\r\n", @{$case->{result}}));
 }

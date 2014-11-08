@@ -35,25 +35,16 @@ sub _header {
     $self->header(%param);
 }
 
-sub _redirect {
-    my $self = shift;
-    my %param = @_;
-
-    $param{-cookie} = [ $self->_auth_cookie ];
-
-    $self->redirect(%param);
-}
-
 sub print {
     my $self = shift;
     my ($r) = @_;
 
     my %param;
-    $param{-type}           = $r->type  if (defined $r->type);
+    $param{-type}           = $r->type      if (defined $r->type);
     $param{-charset}        = $r->charset   if (defined $r->charset);
-    $param{-content_length} = $r->size  if (defined $r->size);
+    $param{-content_length} = $r->size      if (defined $r->size);
     $param{-last_modified}  = rfc1123_date($r->mtime)
-                                        if (defined $r->mtime);
+                                            if (defined $r->mtime);
 
     print $self->_header(%param);
     $r->print               if ($self->_req->method eq 'GET');
@@ -80,9 +71,9 @@ sub print_redirect {
          . (defined $query    ? $query    : '')
          . (defined $fragment ? $fragment : '');
 
-    print $self->_redirect(
-            -status => "$status $status_line",
-            -uri    => $uri
+    print $self->_header(
+            -status   => "$status $status_line",
+            -location => $uri
     );
     return;
 }

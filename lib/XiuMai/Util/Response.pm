@@ -57,11 +57,6 @@ sub header {
     return "$header\n";
 }
 
-sub redirect {
-    my $self = shift;
-    $self->{CGI}->redirect(@_);
-}
-
 sub cookie {
     my $self = shift;
     $self->{CGI}->cookie(@_);
