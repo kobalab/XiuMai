@@ -12,12 +12,6 @@ sub new {
     return bless { CGI => $cgi }, $class;
 }
 
-sub _qvalue_list {
-    my ($str) = @_;
-    return ()   if (! defined $str);
-    return map { s/;.*$//; $_ } split(/,\s*/, $str);
-}
-
 sub method {
     my $self = shift;
     return $ENV{REQUEST_METHOD};
@@ -63,9 +57,9 @@ sub param {
     return $self->{CGI}->param(@_);
 }
 
-sub accept_language {
+sub cookie {
     my $self = shift;
-    return _qvalue_list($ENV{HTTP_ACCEPT_LANGUAGE});
+    return $self->{CGI}->cookie(shift);
 }
 
 sub charset {

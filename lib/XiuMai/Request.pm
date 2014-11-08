@@ -19,17 +19,28 @@ sub new {
     return bless $self, $class;
 }
 
+sub _qvalue_list {
+    my ($str) = @_;
+    return ()   if (! defined $str);
+    return map { s/;.*$//; $_ } split(/,\s*/, $str);
+}
+
+sub accept_language {
+    my $self = shift;
+    return _qvalue_list($ENV{HTTP_ACCEPT_LANGUAGE});
+}
+
 sub login_name {
     my $self = shift;
     return $self->{login_name}  if (exists $self->{login_name});
     $self->{login_name}
-        = XiuMai::Auth::get_login_name($self->{CGI}->cookie('XIUMAI_AUTH'));
+        = XiuMai::Auth::get_login_name($self->cookie('XIUMAI_AUTH'));
 }
 
 sub session_id {
     my $self = shift;
     return $self->{CGI}->cookie('XIUMAI_AUTH')
-            && sha1_hex($self->{CGI}->cookie('XIUMAI_AUTH'));
+            && sha1_hex($self->cookie('XIUMAI_AUTH'));
 }
 
 1;

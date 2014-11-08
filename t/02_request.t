@@ -93,7 +93,7 @@ isa_ok( new XiuMai::Request, 'XiuMai::Request', 'new XiuMai::Request');
     local $ENV{HTTP_ACCEPT_LANGUAGE} = 'ja, en-us;q=0.8,en;q=0.5,zh-cn;q=0.3';
 
     my $r = new XiuMai::Request;
-    eq_array($r->accept_language, ['ja','en-us','en','zh-cn'],
+    ok(eq_array([$r->accept_language], ['ja','en-us','en','zh-cn']),
                                     '$r->accept_language');
 }
 {
