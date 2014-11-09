@@ -26,6 +26,8 @@ our %STATUS_LINE = (
     500 => 'Internal Server Error',
 );
 
+sub _req { $_[0]->{Request} }
+
 sub _header {
     my $self = shift;
     my %param = @_;
@@ -160,7 +162,7 @@ sub login {
                 -name    => 'XIUMAI_AUTH',
                 -value   => $cookie,
                 -path    => $path,
-                -expires => qq(+${XiuMai::Auth::EXPDATE}d),
+                -expires => time + $XiuMai::Auth::EXPDATE *60*60*24,
           );
 
     $self->print_redirect(303, $self->_req->url);
@@ -184,7 +186,9 @@ sub _auth_cookie {
     my $cookie  = $self->_req->cookie('XIUMAI_AUTH')   or return;
     my $path    = $self->_req->base_url;
     my $expdate = defined $self->_req->login_name
-                        ? qq(+${XiuMai::Auth::EXPDATE}d) : '-1d';
+                        ? time + 60*60*24 * $XiuMai::Auth::EXPDATE
+                        : time - 60*60*24;
+
     return $self->cookie(
                 -name    => 'XIUMAI_AUTH',
                 -value   => $cookie,

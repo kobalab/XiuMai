@@ -59,7 +59,12 @@ sub param {
 
 sub cookie {
     my $self = shift;
-    return $self->{CGI}->cookie(shift);
+    my ($name) = @_      or return;
+    for (split(/;\s*/, $ENV{HTTP_COOKIE} || '')) {
+        my ($key, $value) = split('=', $_, 2);
+        $key eq $name  and return $value;
+    }
+    return;
 }
 
 1;

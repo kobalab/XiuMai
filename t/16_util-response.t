@@ -38,10 +38,6 @@ isa_ok($res, 'XiuMai::Util::Response', '$res');
 #   Instance Methods
 #
 
-#   _req
-
-ok($res->_req == $req, '$req->_req == $req');
-
 #   header
 
 my @header_test = (

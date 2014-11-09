@@ -2,19 +2,15 @@ package XiuMai::Util::Response;
 
 use strict;
 use warnings;
+use XiuMai::Util qw(rfc1123_date);
 
 our $VERSION = "0.06";
 
 sub new {
     my $class = shift;
     my ($req) = @_;
-    return bless {
-        Request => $req,
-        CGI     => $req->{CGI},
-    }, $class;
+    return bless { Request => $req }, $class;
 }
-
-sub _req {  $_[0]->{Request}    }
 
 sub header {
     my $self = shift;
@@ -36,11 +32,10 @@ sub header {
     delete $param{-type};
     delete $param{-charset};
 
-    if (exists $param{-cookie}) {
-        $param{-set_cookie}
-            = join(';', map { $_->as_string } @{$param{-cookie}});
-        delete $param{-cookie};
+    if (exists $param{-cookie} && @{$param{-cookie}}) {
+        $param{-set_cookie} = join(', ', @{$param{-cookie}});
     }
+    delete $param{-cookie};
 
     my $header = '';
     if (exists $param{-status}) {
@@ -59,7 +54,14 @@ sub header {
 
 sub cookie {
     my $self = shift;
-    $self->{CGI}->cookie(@_);
+    my %param = @_;
+
+    my $cookie  = $param{-name}.'='.$param{-value};
+    my $path    = 'path='.$param{-path}     if (defined $param{-path});
+    my $expires = 'expires='.rfc1123_date($param{-expires})
+                                            if (defined $param{-expires});
+
+    return join('; ', $cookie, $path, $expires);
 }
 
 1;
